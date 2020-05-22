@@ -772,7 +772,7 @@ interface Props {
 
 <a name="react-views-beyond-getting-started-hot-reloading-limitations"></a>
 ### Hot reloading limitations
- - Extension needs to be on newer production-supported Portal SDK version that is not yet released. _In the meantime __for local-development-only__ you can consider temporarily using intermediate private __non-supported__ Portal SDK of version 5.0.102.21301 or above (note 5.0.__102__.* version format for private non-supported versions, unlike PROD versions format being 5.0.__303__.*)_.
+- Extension needs to be on Portal SDK of version 5.0.303.4271 or higher.
 
 - At this point hot reloading is not working for incremental controls updates.
 

@@ -216,6 +216,7 @@ describe("Create Blade Tests", () => {
   });
 });
 
+
 ```
 
 Add a TemplateBlade test to ./test/ResourceOverviewBlade.test.ts.  You can modify this example for your own extension.
@@ -224,7 +225,7 @@ Add a TemplateBlade test to ./test/ResourceOverviewBlade.test.ts.  You can modif
     
 import { assert } from "chai"; // type issues with node d.ts and require js d.ts so using chai
 import { Parameters, ResourceOverviewBlade } from "Resource/Blades/Overview/ResourceOverviewBlade";
-import ClientResources = require("ClientResources");
+import * as ClientResources from "ClientResources";
 import * as sinon from "sinon";
 import { TemplateBladeHarness } from "msportalfx-ut/Harness";
 
@@ -289,6 +290,7 @@ describe("Resource Overview Blade Tests", () => {
     });
   });
 });
+
 
 ```
 

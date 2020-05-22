@@ -1249,6 +1249,7 @@ module MsPortalFxForAsset {
     }
 }
 
+
 ```
 
 Here is a sample of defining various asset commands, represented by a single TypeScript file in your extension project.

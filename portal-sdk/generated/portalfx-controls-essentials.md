@@ -151,41 +151,9 @@ To use the essentials, compose a template blade that hosts the essentials contro
 
 You can control the behavior of the essentials via initialization [options](#essentialsOptions) and provided [feature](#essentialsFeatures) functions.
 
-**Step 1**: Setup `Settings` interface for preserving `expanded` state for Essentials. `Decorator`s for set `TemplateBlade` and access to the blade settings.
-
 `\Client\V2\Controls\Essentials\EssentialsDefaultBlade.ts`
 
 ```typescript
-
-export interface Settings {
-expanded: boolean;
-}
-
-/*
- * Most common usage of essentials with a resourceId.
- * It has fixed order of specific resource related items.
- * This sample creates an essentials with resourceId and adds some items dynamically after the essentials control is initially rendered.
- */
-@TemplateBlade.Decorator({
-htmlTemplate: `<div data-bind="pcControl: essentials"></div>`,
-})
-// The 'Configurable' decorator is applied here so the Blade can persist the 'expanded' property of the essentials control.
-@TemplateBlade.Configurable.Decorator()
-@TemplateBlade.InjectableModel.Decorator(DataContext)
-export class EssentialsDefaultBlade {
-
-```
-
-**Step 2**: Configurations for Read/Write `expanded` state in the blade settings and initialize the essentials control.
-
-`\Client\V2\Controls\Essentials\EssentialsDefaultBlade.ts`
-
-```typescript
-
-public title = ClientResources.essentialsDefaultEssentials;
-public subtitle = ClientResources.controls;
-
-public context: TemplateBlade.Context<void, DataContext> & TemplateBlade.Configurable.Context<Settings>;
 
 /**
  * View model for the essentials.
@@ -201,84 +169,17 @@ public async onInitialize() {
 
     await mockAPI(2);
 
-    const { container, configuration } = this.context;
-
     // Create an essentials
     this._initializeControl();
 
-    // Read from the blade settings and set "expand" state value for the essentials
-    const configValues = configuration.getValues();
-    if (typeof configValues.settings.expanded === "boolean") {
-        this.essentials.expanded(configValues.settings.expanded);
-    }
-
-    // Update the blade settings when "expanded" value is changed
-    this.essentials.expanded.subscribe(container, (expanded) => {
-        configuration.updateValues({
-            settings: { expanded },
-        });
-    });
+    const { container } = this.context;
 
     // Once the Essentials control is instantiated, this Blade contains enough UI that it can remove the blocking loading indicator
     container.revealContent();
-
-    // Sample AJAX Action
-    const results = await sampleAJAXFunction();
-
-    //essentials#addDynamicProps
-    // Generate array of Essentials.Item | Essentials.MultiLineItem from the results
-    const items: ((Essentials.Item | Essentials.MultiLineItem)[]) = results.map((data: any): Essentials.Item | Essentials.MultiLineItem => {
-        switch (data.type) {
-            case "connectionString":
-                const connectionString = ko.observable(ClientResources.essentialsConnectionStringValue);
-                return {
-                    label: data.label,
-                    value: connectionString,
-                    onClick: () => {
-                        connectionString(data.value);
-                    },
-                };
-            case "text":
-                return {
-                    label: data.label,
-                    value: data.value,
-                    icon: {
-                        image: MsPortalFx.Base.Images.SmileyHappy(),
-                        position: Essentials.IconPosition.Right,
-                    },
-                };
-            case "url":
-                return {
-                    label: data.label,
-                    value: data.value,
-                    onClick: new ClickableLink(ko.observable(data.url)),
-                };
-            case "changeStatus":
-                return {
-                    label: data.label,
-                    value: data.value,
-                    onClick: () => {
-                        this.essentials.modifyStatus(`${++clickCounter} ${ClientResources.essentialsTimesClicked}!`);
-                    },
-                };
-        }
-        //essentials#addDynamicProps
-    });
-
-    // Dynamically adding generated items to the essentials
-    this.essentials.addDynamicProperties(
-        // Add first two items to the left
-        items.slice(0, 2),
-        // Add next two items to the right
-        items.slice(2, 4)
-    );
-}
-
+    
 ```
 
-**Step 3**: Define the `_initializeControl` that initializes the essentials control.
-
-`\Client\V2\Controls\Essentials\EssentialsDefaultBlade.ts`
+...
 
 ```typescript
 
@@ -364,40 +265,9 @@ Custom layout essentials allows you to change layout orders of built-in properti
 
 You can control the behavior of the essentials via initialization [options](#essentialsOptions) and provided [feature](#essentialsFeatures) functions.
 
-**Step 1**: Setup `Settings` interface for preserving `expanded` state for Essentials. `Decorator`s for set `TemplateBlade` and access to the blade settings.
-
 `\Client\V2\Controls\Essentials\EssentialsCustomLayoutBlade.ts`
 
 ```typescript
-
-export interface Settings {
-expanded: boolean;
-}
-
-/*
- * Mostly similar to EssentialsDefaultBlade sample.
- * Unlike the default one, this sample shows the way to change orders of resource-related and user-defined items.
- */
-@TemplateBlade.Decorator({
-htmlTemplate: `<div data-bind="pcControl: essentials"></div>`,
-})
-// The 'Configurable' decorator is applied here so the Blade can persist the 'expanded' property of the essentials control.
-@TemplateBlade.Configurable.Decorator()
-@TemplateBlade.InjectableModel.Decorator(DataContext)
-export class EssentialsCustomLayoutBlade {
-
-```
-
-**Step 2**: Configurations for Read/Write `expanded` state in the blade settings and initialize the essentials control.
-
-`\Client\V2\Controls\Essentials\EssentialsCustomLayoutBlade.ts`
-
-```typescript
-
-public title = ClientResources.essentialsCustomLayoutEssentials;
-public subtitle = ClientResources.controls;
-
-public context: TemplateBlade.Context<void, DataContext> & TemplateBlade.Configurable.Context<Settings>;
 
 /**
  * View model for the essentials.
@@ -408,33 +278,18 @@ public essentials: Essentials.ResourceLayoutContract;
  * Creating an essentials and not using data-loading for the blade.
  */
 public async onInitialize() {
-    const { container, configuration } = this.context;
 
     // Create an essentials
     this._initializeControl();
 
-    // Read from the blade settings and set "expand" state value for the essentials
-    const configValues = configuration.getValues();
-    if (typeof configValues.settings.expanded === "boolean") {
-        this.essentials.expanded(configValues.settings.expanded);
-    }
-
-    // Update the blade settings when "expanded" value is changed
-    this.essentials.expanded.subscribe(container, (expanded) => {
-        configuration.updateValues({
-            settings: { expanded },
-        });
-    });
+    const { container } = this.context;
 
     // Once the Essentials control is instantiated, this Blade contains enough UI that it can remove the blocking loading indicator
     container.revealContent();
-}
-
+    
 ```
 
-**Step 3**: Define the `_initializeControl` that initializes the essentials control.
-
-`\Client\V2\Controls\Essentials\EssentialsCustomLayoutBlade.ts`
+...
 
 ```typescript
 
@@ -509,40 +364,9 @@ Non-resource essentials allows you to use the essentials without a resource id. 
 
 You can control the behavior of the essentials via initialization [options](#essentialsOptions) and provided [feature](#essentialsFeatures) functions.
 
-**Step 1**: Setup `Settings` interface for preserving `expanded` state for Essentials. `Decorator`s for set `TemplateBlade` and access to the blade settings.
-
 `\Client\V2\Controls\Essentials\EssentialsNonResourceBlade.ts`
 
 ```typescript
-
-export interface Settings {
-expanded: boolean;
-}
-
-/*
- * Essentials sample without a resourceId.
- * Since there is no resource items, all items should be provided by the author.
- */
-@TemplateBlade.Decorator({
-htmlTemplate: `<div data-bind="pcControl: essentials"></div>`,
-})
-// The 'Configurable' decorator is applied here so the Blade can persist the 'expanded' property of the essentials control.
-@TemplateBlade.Configurable.Decorator()
-@TemplateBlade.InjectableModel.Decorator(DataContext)
-export class EssentialsNonResourceBlade {
-
-```
-
-**Step 2**: Configurations for Read/Write `expanded` state in the blade settings and initialize the essentials control.
-
-`\Client\V2\Controls\Essentials\EssentialsNonResourceBlade.ts`
-
-```typescript
-
-public title = ClientResources.essentialsNonResourceEssentials;
-public subtitle = ClientResources.controls;
-
-public context: TemplateBlade.Context<void, DataContext> & TemplateBlade.Configurable.Context<Settings>;
 
 /**
  * View model for the essentials.
@@ -558,33 +382,17 @@ private _customStatus: KnockoutObservable<string> = ko.observable(null);
  * Creating an essentials and not using data-loading for the blade.
  */
 public async onInitialize() {
-    const { container, configuration } = this.context;
-
     // Create an essentials
     this._initializeControl();
 
-    // Read from the blade settings and set "expand" state value for the essentials
-    const configValues = configuration.getValues();
-    if (typeof configValues.settings.expanded === "boolean") {
-        this.essentials.expanded(configValues.settings.expanded);
-    }
-
-    // Update the blade settings when "expanded" value is changed
-    this.essentials.expanded.subscribe(container, (expanded) => {
-        configuration.updateValues({
-            settings: { expanded },
-        });
-    });
+    const { container } = this.context;
 
     // Once the Essentials control is instantiated, this Blade contains enough UI that it can remove the blocking loading indicator
     container.revealContent();
-}
-
+    
 ```
 
-**Step 3**: Define the `_initializeControl` that initializes the essentials control.
-
-`\Client\V2\Controls\Essentials\EssentialsNonResourceBlade.ts`
+...
 
 ```typescript
 

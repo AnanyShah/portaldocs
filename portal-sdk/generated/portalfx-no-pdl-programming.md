@@ -399,8 +399,16 @@ There are scenarios like 'User clicks "Save" on my Blade/Part' where the extensi
 
 For no-PDL Blades/Parts, the 'operations' API is `this.context.container.operations`, and the API's use is described [here](portalfx-blades-templateBlade-advanced.md#showing-a-shield-loading-status-in-your-blade).  There is a sample to consult [here](https://df.onecloud.azure-test.net/#blade/SamplesExtension/TemplateBladeWithSettings).
 
-<a name="defining-blades-and-parts-using-typescript-decorators-a-k-a-no-pdl-no-pdl-faq-how-can-i-save-some-state-for-my-no-pdl-blade"></a>
-#### How can I save some state for my no-PDL Blade?
-There is a decorator - @TemplateBlade.Configurable.Decorator for example, available on all Blade variations - that adds a `this.context.configuration` API that can be used to load/save Blade "settings".  See a sample [here](https://df.onecloud.azure-test.net/#blade/SamplesExtension/TemplateBladeWithSettings).
+<a name="defining-blades-and-parts-using-typescript-decorators-a-k-a-no-pdl-no-pdl-faq-how-can-i-save-some-state-for-my-no-pdl-blade-aka-blade-settings"></a>
+#### How can I save some state for my no-PDL Blade (aka &quot;Blade settings)?
+There is a decorator - `@TemplateBlade.Configurable.Decorator` for example, available on most Blade variations (`@TemplateBlade`, `@FrameBlade`, `@Blade.Decorator` but not `@MenuBlade.Decorator` or the menu portion of ResourceMenu Blades).  When applied, this decorator adds a `this.context.configuration` API that can be used to load/save Blade "settings".  See the "TemplateBladeWithSettings" sample here:
 
-**WARNING** - We've recently identified this API as a source of Portal perf problems.  In the near future, the Ibiza team will break this API and replace it with an API that is functionally equivalent (and better performing).
+- https://df.onecloud.azure-test.net/#blade/SamplesExtension/TemplateBladeWithSettings
+- https://msazure.visualstudio.com/One/_git/AzureUX-SamplesExtension?path=%2Fsrc%2FExtension%2FClient%2FV2%2FBlades%2FTemplate%2FTemplateBladeWithSettings.ts
+
+Some guidelines using `@TemplateBlade.Configurable.Decorator` (across the supported no-PDL Blade variants):
+
+- Only a small number of select Blades should use this “Blade settings” API, as the feature itself has a perf cost. Nearly all Blades should have no use for this feature.
+- Don’t use the `SettingsScope.PerId` feature – This feature stores a discrete settings value for every resource the user navigates to (for a given Blade). As you can guess, this is where you can lose control of the scale/lifetime of settings you’re loading, and this can impact perf. There are no steps necessary to turn off this feature. You should simply not use this `SettingsScope.PerId` feature.
+- An extension team has reported that the `sharedKey` feature that enables settings to be shared across different Blades (developed as different classes, that is) is broken. This feature has very little use in extensions (and possibly none), so no steps have been taken to verify the break and to fix it.
+- The "Blade settings" feature is not supported for `@MenuBlade.Decorator` and not for the menu portion of your ResourceMenu Blade.
