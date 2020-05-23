@@ -26,7 +26,7 @@ You can control the behavior and features of the editor via initialization `opti
 /**
 * ViewModel class for the editor sample.
 */
-export class SampleEditorViewModel extends MsPortalFx.ViewModels.Controls.Documents.Editor.ViewModel {
+export class SampleEditorViewModel extends MsPortalFx.ViewModels.Controls.Documents.Editor.ViewModel { // tslint:disable-line:deprecation
    /**
     * Editor view model constructor.
     */
@@ -73,7 +73,7 @@ export class EditorInstructionsPartViewModel
    /**
     * View model for the editor.
     */
-   public editorVM: MsPortalFx.ViewModels.Controls.Documents.Editor.Contract;
+   public editorVM: MsPortalFx.ViewModels.Controls.Documents.Editor.Contract; // tslint:disable-line:deprecation
 
    /**
     * View model for the save button.
