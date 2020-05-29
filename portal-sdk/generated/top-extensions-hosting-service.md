@@ -173,6 +173,8 @@ Here are example for each environment. For now, just add this empty file with a 
     ```xml
     <Content Include="Content\Config\portal.azure.us.json" />
     ```
+1. **USSec and USNat:** - please visit [https://aka.ms/portalfx/lxextonboarding](https://aka.ms/portalfx/lxextonboarding)
+
 
 Environment configuration files server 2 purposes - 
 
