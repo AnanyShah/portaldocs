@@ -84,6 +84,7 @@ With the one time configuration steps complete you can now install the CLI as yo
 1. run following commands
 
 ```
+cd c:\ && mkdir dev && cd dev
 ap new -n Microsoft_Azure_FirstExtension -o ./FirstExtension
 cd ./FirstExtension/src/default/extension
 ap start
@@ -98,7 +99,7 @@ See `ap start` demo in the [Video: A single command for restoring dependencies, 
 1. run following commands
 
 ```
-cd ./FirstExtension/src/default/extension.unittest
+cd ./FirstExtension/src/default/extension.unittests
 ap run test
 ```
 
