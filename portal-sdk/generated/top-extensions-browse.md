@@ -1347,7 +1347,7 @@ import { SvgType } from "Fx/Images";
                     id: "SelectionBasedOpenBladeCommand",
                     label: ClientResources.AssetCommands.openBlade1,
                     icon: {
-                        image: SvgType.QuickStart,
+                        image: SvgType.AzureQuickstart,
                     },
                     bladeReference: {
                         blade: "SimpleTemplateBlade",
