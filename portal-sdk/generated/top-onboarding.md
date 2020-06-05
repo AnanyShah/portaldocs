@@ -198,7 +198,7 @@ Azure portal onboarding steps listed below assumes that all new services have co
 
 5) Partners must onboard to all public and sovereign clouds at the same time and update the respective configs.
 
-6) **[Hide all assets](portalfx-assets.md#how-to-hide-your-asset-in-different-environments)** in sovereign clouds if you do not intend to show your experiences in those clouds.
+6) **[Hide all assets](portalfx-assets.md#how-to-hide-or-show-your-asset-in-different-environments)** in sovereign clouds if you do not intend to show your experiences in those clouds.
 
 7) By onboarding to Azure portal you agree to keeping your extension up to date regularly with the latest supported SDK. You will recieve IcM alerts ranging from Sev-4 to Sev-2 if you fail to upgrade your SDK before required time limit.
 
@@ -219,22 +219,9 @@ Azure portal onboarding steps listed below assumes that all new services have co
 
 4) Any alerts configured for you service in the Alerting repository will be removed only after the corresponding configuration changes are fully removed from the extensions config json files and deployed to Production. We also need to wait for stable build before we stop firing the alerts for a deprecated extension.
 
-
 **NOTE:** *Partner must cherry-pick changes made in both Azure portal framework and hosting services from Dev branch to Production branch for the changes to be deployed to Production/Public clouds. Partners are responsible for completing the PR and cherry-picking the changes from Dev Branch to Production Branch. Portal team does NOT merge these changes automatically*
 
-<a name="steps-to-portal-onboarding-how-to-cherry-pick-manually"></a>
-<a name="steps-to-portal-onboarding-how-to-cherry-pick-manually-more-info-on-publishing-top-extensions-publishing-md"></a>
-## How to cherry-pick manually? *<a href="top-extensions-publishing.md">More info on publishing</a>*
-
-1) Open git command prompt and navigate to hosting service folder
-2) Create a new branch from Production branch
-3) Run cherry-pick commit_id_from_devbranch_pullrequest
-4) Resolve any merge conflicts and save changes
-5) Add the file after saving changes
-6) Run cherry-pick --continue
-7) Run git push --set-upstream origin branch_name_created_in_step2
-
-**IMPORTANT** *Partners must ensure PR has the required approvals and all the policies are met and PR is complete. PRs may get delayed due to merge validation expiry or other policy checks. Partners can re-trigger any policy that expired or failed.*
+![storage container](./../media/top-onboarding/branch-mapping.png)
 
 1) Understand the deployment schedules and **[SLAs](top-extensions-svc-lvl-agreements.md)** for Portal framework and Hosting service repositories.
 
@@ -281,8 +268,8 @@ eg: Dogfood, Prod, Mooncake, Fairfax and BlackForest
 
 6) Commit and Create a pull request to the Dev Branch.
 7) Create a hosting service onboarding [workitem](https://aka.ms/extension-hosting-service/onboarding) and this to the pull request.
-8) Send email to [ibiza-onboarding@microsoft.com](mailTo:ibiza-onboarding@microsoft.com) with the workitem details and pull request id to get the approval.
-9) Once the hosting service PR for Dev branch is completed, parnters MUST cherry-pick this commit from Dev branch to Production branch of hosting services.
+8) Send email to [ibiza-onboarding@microsoft.com](mailTo:ibiza-onboarding@microsoft.com) with the pull request link to get the approval.
+9) Once the hosting service PR for Dev branch is completed, partners MUST cherry-pick this commit from Dev branch to Production branch of hosting services.
 
 Note:  Incorrect or insufficient information in the workitem could delay the onboarding process.
 
@@ -342,7 +329,7 @@ Note : Dogfood config does not require creating a CNAME entry for extensions as 
             "service": "Demo IcM Service",
             "team": "Azure Demo UX"
         },
-        "hostingServiceName": "azuredemo"
+        "hostingServiceName": "demoextension"
     }
 
 7) [Hide all assets](portalfx-assets.md#how-to-hide-your-asset-in-different-environments) in your extension code before updating the framework config. By doing this, you can control when the assets can be shown and when you want to go live in Production.
@@ -350,9 +337,9 @@ Note : Dogfood config does not require creating a CNAME entry for extensions as 
 Note : Extension name cannot be changed once onboarding is complete. It will require a new onboarding and redirecting to the new extension.
 
     {
-        "name": "Microsoft_Azure_DemoExtension",
+        "name": "Microsoft_Azure_NewDemoExtension",
         "feedbackEmail": "demoextPMDev@microsoft.com",
-        "redirectTo": "Microsoft_Azure_DemoOld",
+        "redirectTo": "Microsoft_Azure_DemoExtension",
         "serviceTreeId": "abcdb46d-bf43-4fef-a148-0d740e595d62",
         "icm": {
             "service": "Azure Demo IcM",
@@ -382,18 +369,13 @@ Note : Please DO NOT get the pull request approved, bypassed or completed withou
 <a name="steps-to-portal-onboarding-step-3-aad-onboarding"></a>
 ## Step 3 - AAD Onboarding
 
-1) This onboarding process is only meant for extensions in Azure portal that intend to call backend services like msgraph, keyvault or others.
-2) If your service only calls ARM, you do not need a separate 1st party app.
-3) Portal team is required to own the AAD apps if you intend to use them in the extension and need portal to get an OBO(on behalf of) token for the configured audiences in  your extension config.
-4) If you intend to get a self token and exchange with AAD for any audience of your choice, Portal team does not need ownership and this AAD onboarding can be skipped.
-
 NOTE: ARM tokens obtained during portal login are meant only for calling ARM. For all other purposes, please create a 1st party App.
 
-1) Join the **[Ibiza AAD App Partners](https://aka.ms/portalfx/joinaadapppartners)** security group if you want to create or update your 1st party AAD app.
+1) Register your 1st party AAD app from **[First Party Portal](https://firstpartyportal.msidentity.com/RegisterApp)**
 
-2) Once the request is approved, you should be part of the security group that has access to the public certificate that is required to be added to the AAD apps in 1st party AAD apps in each environment
+2) Go to Provisioning tab and select **unknown** in the dropdown for **How will you make your application available to customers** and in the **"Provide more detail"** section, add **"This app will be used by Azure portal extension to call graph and other backend services"**.
 
-3) Register your 1st party AAD app from **[First Party Portal](https://firstpartyportal.msidentity.com/RegisterApp)**
+3) Go to the **Owners** tab and use an email enabled security group that you and your team are part of **domain\securitygroup** as the **Owners Security Group**
 
 4) Use the following Subject Name Issuer in the authentication tab.
 
@@ -410,13 +392,62 @@ Note: DO NOT ADD ALL ENTRIES IN ONE ENVIRONMENT. MUST BE ADDED ONLY TO CORRESPON
 | Mooncake/Gallatin | extaadame.mgmt.portal.azure.cn | AME |
 | BlackForest | ext.mgmt.portal.microsoftazure.de | DTrust |
 
-*Important : Add both PROD and Fairfax Subject Name and Issuer in Prod App if you need to use the AAD App in Fairfax Extension. As AAD is not approving new apps for AAD Fairfax environment, Prod app is required to be promoted to Arlington environment in AAD to be used in Fairfax cloud. Consider Arlington as Fairfax. As Arlington environment in AAD is a readonly and gets settings from PROD app, we recommend updating required Fairfax settings in the PROD AAD app so that the settings get synced in the background to Arlington app.*
+*Important : Add both PROD and Fairfax Subject Name and Issuer in Prod App if you need to use the AAD App in Fairfax Extension. As AAD is not approving new apps for AAD Fairfax environment, Prod app is required to be promoted to Arlington environment in AAD to be used in Fairfax cloud. Consider Arlington as Fairfax. As Arlington environment in AAD is a readonly and gets settings from PROD app, we recommend updating required Fairfax settings in the PROD AAD app so that the settings get synced in the background to Arlington app.
 
-5) Send email to [ibiza-onboarding@microsoft.com] to add the authentication certificates to the 1st party AAD app along with the Appid.
+7) Add any other required fields as appropriate and submit your application.
 
-5) Go to Provisioning tab and in the **"Provide more detail"** section, add **"This app will be used by Azure portal extension to call graph and other backend services"**.
+8) After the PPE app is approved, you can edit and go to the app's environment section and promote to the Prod branch. Similarly you can promote to other environments if the Prod app is approved.
 
-6) Go to the **Owners** tab and use **redmond\ibizaaadapppartners** as the **Owners Security Group**
+9) You can then use the app in the portal framework extension configuration for your extension.
+
+Note: When using resourceAccess on server side, use extension config as follows
+
+    {
+        "name": "Microsoft_Azure_DemoExtension",
+        "feedbackEmail": "demoextPMDev@microsoft.com",
+        "flags": "SupportsPrewarming",
+        "resourceAccess": [
+            {
+                "name": "",
+                "resource": "https://management.core.windows.net/"
+            },
+            {
+                "name": "self",
+                "resource": "abcd18b0-9c38-48c9-a847-e1ef3af0602d"
+            },
+            {
+                "name": "graph",
+                "resource": "https://graph.windows.net/",
+                "oAuthClientId": "abcd18b0-9c38-48c9-a847-e1ef3af0602d"
+            },
+            {
+                "name": "microsoft.graph",
+                "resource": "https://graph.microsoft.com/",
+                "oAuthClientId": "abcd18b0-9c38-48c9-a847-e1ef3af0602d"
+            }
+        ],
+        "serviceTreeId": "abcdbde1-a1b3-41da-be44-e3fa76a3ffc6",
+        "icm": {
+            "service": "Demo IcM Service",
+            "team": "Azure Demo UX"
+        },
+        "hostingServiceName": "demoextension"
+    }
+
+Note: When using resourceAccess on client side, use extension config as follows
+
+    {
+        "name": "Microsoft_Azure_DemoExtension",
+        "feedbackEmail": "demoextPMDev@microsoft.com",
+        "flags": "SupportsPrewarming",
+        "oAuthClientId": "abcd18b0-9c38-48c9-a847-e1ef3af0602d",
+        "serviceTreeId": "abcdbde1-a1b3-41da-be44-e3fa76a3ffc6",
+        "icm": {
+            "service": "Demo IcM Service",
+            "team": "Azure Demo UX"
+        },
+        "hostingServiceName": "demoextension"
+    }
 
 **IMPORTANT NOTE: *Partners are responsible for making sure the AAD app has all the required permissions and pre-authorization to access intended resources.***
 <!--
@@ -429,8 +460,10 @@ TODO - Add an example after the feature is ready (ETA is March or April )
 
 | Link | Description |
 | ----------- | ------- |
-| [Getting Started](https://aka.ms/portalfx/onboarding/gettingstarted)	      | How To: Getting started with Azure portal SDK |
+| [Getting Started](https://aka.ms/portalfx/onboarding/gettingstarted) | How To: Getting started with Azure portal SDK |
 | [Architecture](https://aka.ms/portalfx/onboarding/architecture)     | Azure portal architecture  |
+| [Onboarding PPT](https://aka.ms/portalfx/onboarding/ppt)     | Azure portal Onboarding Powerpoint Slides  |
+| [Samples Playground](https://aka.ms/portalfx/onboarding/ppt)     | Azure portal Samples Playground  |
 | [Authentication in Azure portal](https://aka.ms/portalfx/auth)     | How To: Azure portal authentication  |
 | [Azure portal Release Pipeline](https://dev.azure.com/msazure/One/_dashboards/dashboard/adf2732d-f4a9-476d-a7a7-7ab7aab4a2ad)     | Check Framework Service release pipeline  |
 | [Hosting Service Release Pipeline](https://dev.azure.com/msazure/One/_dashboards/dashboard/25be4cd4-4fbd-45c9-b257-79baf530abbe)     | Check Hosting Service release pipeline   |

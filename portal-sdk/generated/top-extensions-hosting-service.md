@@ -26,7 +26,7 @@ Teams deploying UI for extensions with the self-host model typically have to inv
 
 This section provides a quick 30-sec overview of how you deploy an extension using the hosting service.
 
-1. Microsoft.Portal.Tools.v2.targets generates a zip that has all the static files in your extension that are required by the Extension Hosting Service.
+1. Microsoft.Portal.Tools.targets generates a zip that has all the static files in your extension that are required by the Extension Hosting Service.
 1. You upload the zip file generated in Step #1 to a public read-only storage account owned by your team.
 1. Hosting service polls the storage account, detects the new version and downloads the zip file in each data center within 30 minutes and starts serving the new version to customers around the world.
 
@@ -43,11 +43,11 @@ Note: Legacy Content Unbundler steps can be found in [this document](top-extensi
 <a name="extension-hosting-service-step-by-step-onboarding-step-1-generate-hosting-service-versioned-zip-file-build-configuration"></a>
 ##### Build configuration
 
- Microsoft.Portal.Tools.v2.targets provides the following properties to control hosting service output generation.  The properties have default values that you can override in your Extension.csproj file to meet the needs of your extension.
-- `HostingServiceCreateDeploymentArtifacts`: defaults is undefined. Set to  `true` to generate versioned hosting service zip file. 
+ Microsoft.Portal.Tools.targets provides the following properties to control hosting service output generation.  The properties have default values that you can override in your Extension.csproj file to meet the needs of your extension.
+- `HostingServiceCreateDeploymentArtifacts`: defaults is undefined. Set to  `true` to generate versioned hosting service zip file.
 - `HostingServiceRoutePrefix`: Defaults to `$(MSBuildProjectName)`. The prefix name of your extension e.g scheduler that is supplied as part of onboarding to the extension host.
 - `HostingServicePackageOutputRootDir`: Defaults to `$(OutDir)`. This is the output directory in which the build create a HostingSvc directory with generated zip file.
-	
+
 For example this is the customized configuration for playground extension in CoreXT
 
 ```xml
@@ -60,7 +60,7 @@ For example this is the customized configuration for playground extension in Cor
 
 Outside of CoreXT, you may want to set `HostingServiceCreateDeploymentArtifacts` to default to true as IsOfficialBuild will not be defined.  Note to change the output path of the build output use `HostingServiceCreateDeploymentArtifacts`.
 
-**Note:** Ev2 deployment rollout spec generation is enabled by default. To control Ev2 generation  Microsoft.Portal.Tools.v2.targets provides the following properties.
+**Note:** Ev2 deployment rollout spec generation is enabled by default. To control Ev2 generation  Microsoft.Portal.Tools.targets provides the following properties.
 
 - `HostingServiceEv2ExportTemplates`: Defaults to `true`. When true will generate ev2 deployment artifacts to `HostingServiceEv2ServiceGroupRootSourceDir`.
 - `HostingServiceEv2OutputRootDir`: Defaults to `$(HostingServicePackageOutputRootDir)`. Root directory where generated Ev2 Rollout specs will placed.
@@ -71,7 +71,7 @@ Outside of CoreXT, you may want to set `HostingServiceCreateDeploymentArtifacts`
 
 The zip file generated during the build should be named as `<ExtensionPageVersion>.zip`, where `<ExtensionPageVersion>` is the current version number of your build.
 
-You will need to set up some MSBuild directives in your Extension.csproj to populate the ExtensionPageVersion MSBuild property. If you are on CoreXT, you can try the following lines of code. 
+You will need to set up some MSBuild directives in your Extension.csproj to populate the ExtensionPageVersion MSBuild property. If you are on CoreXT, you can try the following lines of code.
 
 ```xml
 
@@ -96,10 +96,10 @@ Update `IsDevelopmentMode` in `web.config` to `false.`
     <add key="Microsoft.Portal.Extensions.<YourExtension>.ApplicationConfiguration.IsDevelopmentMode" value="false"/>
 ```
 
-Here is an example of the monitoring extension - 
+Here is an example of the monitoring extension -
 
 ```xml
-    <add key="Microsoft.Portal.Extensions.MonitoringExtension.ApplicationConfiguration.IsDevelopmentMode" value="false"/> 
+    <add key="Microsoft.Portal.Extensions.MonitoringExtension.ApplicationConfiguration.IsDevelopmentMode" value="false"/>
 ```
 
 If you wish to achieve this only on release builds a [`web.Release.config`](http://go.microsoft.com/fwlink/?LinkId=125889) transform can be used.
@@ -128,7 +128,7 @@ In order to load your extension in a specific environments you will need to prov
 - The file should have its build action set to `Content`, otherwise the file will not be included in the generated zip file.
 - The files need to be named with the following convention: <host>.<domain>.json (e.g. portal.azure.com.json, ms.portal.azure.com.json)
 - a default.json file is required. It will contain environment values that will be made available to the client.  default.json is common to all cloud specific configs.  If the same key is found in a cloud specific config it will get overridden by the value from the cloud specific config.  If you are migrating off the old ContentUnbundler build process see [aka.ms/portalfx/removecuvideo](https://aka.ms/portalfx/removecuvideo) for detauls of how to author your default.json.
-	
+
 Here are example for each environment. For now, just add this empty file with a build action of content:
 1. **Default** configuration file should be named `default.json`.
 
@@ -141,21 +141,21 @@ Here are example for each environment. For now, just add this empty file with a 
     ```xml
     <Content Include="Content\Config\df.onecloud.azure-test.net.json" />
     ```
-    
+
 1. **Production:** Configuration file name should be `portal.azure.com.json`.
 
     ```xml
     <Content Include="Content\Config\portal.azure.com.json" />
     ```
-    
-	Production environment has 3 stamps - 
-    
+
+	Production environment has 3 stamps -
+
     1. RC - rc.portal.azure.com
     1. MPAC - ms.portal.azure.com
     1. PROD - portal.azure.com
-    
+
 	One single configuration file is enough for all three stamps.
-    
+
 1. **Mooncake:** (portal.azure.cn) - Configuration file name should be `portal.azure.cn.json`.
 
     ```xml
@@ -167,7 +167,7 @@ Here are example for each environment. For now, just add this empty file with a 
     ```xml
     <Content Include="Content\Config\portal.microsoftazure.de.json" />
     ```
-    
+
 1. **Fairfax:** (portal.azure.us) - Configuration file name should be `portal.azure.us.json`.
 
     ```xml
@@ -176,7 +176,7 @@ Here are example for each environment. For now, just add this empty file with a 
 1. **USSec and USNat:** - please visit [https://aka.ms/portalfx/lxextonboarding](https://aka.ms/portalfx/lxextonboarding)
 
 
-Environment configuration files server 2 purposes - 
+Environment configuration files server 2 purposes -
 
 1. Make the extension available in target environment. Override settings for target environment. If there are no settings that needs to be overridden, the file should contain an empty json object.
 
@@ -186,7 +186,7 @@ When the portal requests an extension, it passes the portal host name as a query
 
 ##### Updating content of config file
 
-The portal framework expects the settings to be in the format of `Microsoft.Azure.MyExtension.MySetting`. The framework will propagate setting to the client in the format of `mySetting`. So to be able to provide a value for this setting, the `web.config` file should be something like - 
+The portal framework expects the settings to be in the format of `Microsoft.Azure.MyExtension.MySetting`. The framework will propagate setting to the client in the format of `mySetting`. So to be able to provide a value for this setting, the `web.config` file should be something like -
 
 ```xml
 <add key="Microsoft.Azure.MyExtension.MySetting" value="myValue" />
@@ -233,7 +233,7 @@ In addition to the zip files, the hosting service expects a config file in the s
 
 **`$version`:** This is a mandatory attribute and should always be defined in the `config.json`. This is the version of the current `config.json` schema. Hosting service requires extension developers to use the latest version i.e. 3.
 
-**stage(1-5):** stage(1-5) are mandatory attributes and should always be defined in the `config.json` with a valid version number associated with it. Safe deployment requires that extensions should be rolled out to all data centers in a staged manner. Out of the box hosting service provides extension the capability to rollout extension in 5 stages. From extension developer's point of view the stages correspond to datacenters: 
+**stage(1-5):** stage(1-5) are mandatory attributes and should always be defined in the `config.json` with a valid version number associated with it. Safe deployment requires that extensions should be rolled out to all data centers in a staged manner. Out of the box hosting service provides extension the capability to rollout extension in 5 stages. From extension developer's point of view the stages correspond to datacenters:
 
 - stage1: centraluseuap
 - stage2: westcentralus
@@ -245,9 +245,9 @@ This essentially means that if a user request the extension to be loaded in port
 
 **`$customStageDefinition`:** The hosting service provides a default rollout stages as described above. If those do not meet your requirements, you can modify them by supplying a custom stage definition file for your extension. To tell the hosting service that it should use a custom stage definition for your extension, set this property to true in your `config.json` file.
 
-Once this property is set to true, the hosting service will expect that a json file with the name `stagedefinintion.json` exists in your storage account, and will try to fetch it. 
+Once this property is set to true, the hosting service will expect that a json file with the name `stagedefinintion.json` exists in your storage account, and will try to fetch it.
 
-For example, https://mybizaextensionprod.blob.core.windows.net/extension/stagedefinition.json 
+For example, https://mybizaextensionprod.blob.core.windows.net/extension/stagedefinition.json
 
 If the fetch fails for any reason, the hosting service will fail to sync the extension.
 
@@ -256,7 +256,7 @@ The custom stage definition file is a json file that should conform to the below
 
 ```json
 {
-    "stagename":["array of ARM region names"], 
+    "stagename":["array of ARM region names"],
     "allregionsstagename":["*"],
     "$sequence":["stagename","allregionsstagename"]
 }
@@ -297,7 +297,7 @@ The last item in the $sequence array should always be assigned an array of a sin
 The stages defined in your `config.json` file should match the stage names defined in your `stagedefinition.json` file.
 
 
-For national clouds, there are default stage definition defines only 2 stages as outlined below - 
+For national clouds, there are default stage definition defines only 2 stages as outlined below -
 
 **Mooncake:**
 
@@ -316,11 +316,11 @@ For national clouds, there are default stage definition defines only 2 stages as
 
 In addition to the stages, you can add custom names to versions that you want to test but not serve to customers. We call them friendly names. You can define up to a 100 friendly names in the `config.json`. If more than 100 friendly names are defined in the config, the hosting service will fail to sync the extension and an IcM incident will be created against the owning team. Friendly names should point to valid versions of your extension, and those versions should exist in the storage account.
 
-Each of the properties defined in your config (stages and friendly names) get a unique url that you can use to access the version that it points to. For example, to load the version that is in stage1 above, the url would be - 
+Each of the properties defined in your config (stages and friendly names) get a unique url that you can use to access the version that it points to. For example, to load the version that is in stage1 above, the url would be -
 
 [https://myextension.hosting.portal.azure.net/myextension/stage1?l=en&trustedAuthority=portal.azure.com](https://myextension.hosting.portal.azure.net/myextension/stage1?l=en&trustedAuthority=portal.azure.com)
 
-To load version 2.0.0.0 the url would be - 
+To load version 2.0.0.0 the url would be -
 
 [https://myextension.hosting.portal.azure.net/myextension/friendlyname?l=en&trustedAuthority=portal.azure.com](https://myextension.hosting.portal.azure.net/myextension/friendlyname?l=en&trustedAuthority=portal.azure.com)
 
@@ -330,7 +330,7 @@ Extensions that intend to use extension hosting service should publish the packa
 
 Since the hosting service requires a single storage account to hold all the extension deployment artifacts, this constitutes a single point of failure where if the storage account is down for any reason, the extension cannot be updated. To overcome this limitation, the storage team built a feature allowing storage account owners to fail over to a secondary region in case the primary region that hosts the storage account is down.
 
-You can find more information about the feature and how to onboard here https://azure.microsoft.com/en-us/blog/account-failover-now-in-public-preview-for-azure-storage/ 
+You can find more information about the feature and how to onboard here https://azure.microsoft.com/en-us/blog/account-failover-now-in-public-preview-for-azure-storage/
 
 #### Step 8: Registering your extension with the hosting service
 
@@ -340,15 +340,15 @@ To onboard the extension, please provide the following information in the task:
 
 1. Extension Name.
 
-    For example, Microsoft_Azure_Test 
- 
+    For example, Microsoft_Azure_Test
+
 1. Public read-only endpoint for Dogfood.
 
     For example, [https://mybizaextensiondf.blob.core.windows.net/extension](https://mybizaextensiondf.blob.core.windows.net/extension)
-    
+
 1. Public read-only endpoint for PROD.
 
-    For example, [https://mybizaextensionprod.blob.core.windows.net/extension](https://mybizaextensionprod.blob.core.windows.net/extension) 
+    For example, [https://mybizaextensionprod.blob.core.windows.net/extension](https://mybizaextensionprod.blob.core.windows.net/extension)
 
 Please submit your onboarding request [here](https://mybizaextensionprod.blob.core.windows.net/extension).
 
@@ -383,21 +383,21 @@ To minimize the probability of regression, use the following procedure to migrat
 1. Change the uri format to use the hosting service in the PROD environment. An example of a pull request for modifying the uriFormat parameter is located [here](https://msazure.visualstudio.com/One/Azure%20Portal/_git/AzureUX-PortalFx/commit/c22b81463cab1d0c6b2c1abc803bc25fb2836aad?refName=refs%2Fheads%2Fdev).
 
     ```json
-    { 
-        name: "Microsoft_Azure_MyExtension", 
-        uri: "//selfhost.net/myextension", 
-        uriFormat: "//myextension.hosting.portal.azure.net/myextension/{0}", 
-        feedbackEmail: "azureux-myextension@microsoft.com", 
+    {
+        name: "Microsoft_Azure_MyExtension",
+        uri: "//selfhost.net/myextension",
+        uriFormat: "//myextension.hosting.portal.azure.net/myextension/{0}",
+        feedbackEmail: "azureux-myextension@microsoft.com",
     }
     ```
 
 1. Migrate your extension's configuration to hosting service format in dogfood: Example pull request for this change is located [here](https://msazure.visualstudio.com/One/_git/AzureUX-PortalFx/pullrequest/1606743?_a=overview) for Microsoft_Azure_AD extension.
 
     ```json
-    { 
-        name: "Microsoft_Azure_MyExtension", 
+    {
+        name: "Microsoft_Azure_MyExtension",
         hostingServiceName: "myextension",
-        feedbackEmail: "azureux-myextension@microsoft.com", 
+        feedbackEmail: "azureux-myextension@microsoft.com",
     }
     ```
 
@@ -418,7 +418,7 @@ If you are using safe deployment then it is likely that you want to rollout a ne
 1. If the version to be published is in the storage account -
     - Update specific stage in config.json to this verion
 
-**NOTE:** Publishing a version to specific stage in safe deployment does not require a new build. 
+**NOTE:** Publishing a version to specific stage in safe deployment does not require a new build.
 
 ### Hosting Service diagnostics
 
@@ -437,14 +437,14 @@ Each extension gets its own diagnostics endpoint, by adding the extension name t
 
 ### Friendly names and sideloading
 
-Friendly name allows you to test new versions of your extension before rolling them out to customers. You can side load the version associated with the friendly name in the portal by specifying a couple of feature flags. For example, in the config above, if you want to load version 2.0.0.0 in the portal, you could using the below url - 
+Friendly name allows you to test new versions of your extension before rolling them out to customers. You can side load the version associated with the friendly name in the portal by specifying a couple of feature flags. For example, in the config above, if you want to load version 2.0.0.0 in the portal, you could using the below url -
 
 [https://portal.azure.com?feature.canmodifystamps&Microsoft_Azure_MyExtension=friendlyname](https://portal.azure.com?feature.canmodifystamps&Microsoft_Azure_MyExtension=friendlyname)
 
 - `feature.canmodifystamps=true` is required for side-loading.
 - replace `Microsoft_Azure_MyExtension` with unique name of extension defined in `extension.pdl`.
 
-When those feature flags are passed to the portal, the portal will use the friendly name that is specified in the query string in combination with the value of the `uriFormat` property for that extension to generated a url that is unique for that friendly name. 
+When those feature flags are passed to the portal, the portal will use the friendly name that is specified in the query string in combination with the value of the `uriFormat` property for that extension to generated a url that is unique for that friendly name.
 
 For example, based on the portal url above and the uriFormat defined, the portal will use the below url to load the extension
 `https://myextension.hosting.portal.azure.net/myextension/friendlyname?l=en&trustedAuthority=portal.azure.com&....`
@@ -474,8 +474,8 @@ If the error is caused by an outage (for example storage outage or datacenter ou
 
 **When I build my project the output zip is called HostingSvc.zip rater then <BUILD_VERSION>.zip.**
 
-The primary cause of this issue is that your `web.config` appSetting for `IsDevelopmentMode` is true. It needs to be set to false, most do this using a `web.Release.config` transform. For example - 
-    
+The primary cause of this issue is that your `web.config` appSetting for `IsDevelopmentMode` is true. It needs to be set to false, most do this using a `web.Release.config` transform. For example -
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!-- For more information on using web.config transformation visit http://go.microsoft.com/fwlink/?LinkId=125889 -->
@@ -494,7 +494,7 @@ The runtime component of the hosting service is hosted inside an Azure Cloud Ser
 **How much time does hosting service takes to rollout a new version of extension to the relevant stage?**
 
 Hosting service takes about 30 minutes to publish the latest version to all DCs.
-    
+
 **Some customers of my extension are hitting the old UX even after deploying the latest package. Is there a bug in hosting service?**
 
 No this is not a bug. All clients will not get the new version as soon as it gets deployed. The new version is only served when the customer refreshes the portal. We have seen customers that keep the portal open for long periods of time. In such scenarios, when customer loads the extension they are going to get the old version that has been cached. We have seen scenarios where customers did not refresh the portal for 2 weeks.
@@ -504,7 +504,7 @@ No this is not a bug. All clients will not get the new version as soon as it get
 
 Hosting service will only serve the new versions of zip file. If you replace version `1.0.0.0.zip` with a new version of `1.0.0.0.zip` then hosting service will not detect. It is required that you publish new zip file with a different version number. For example `2.0.0.0.zip` and update `config.json` to reflect that hosting service should service new version of extension.
 
-Sample config.json for version 2.0.0.0 - 
+Sample config.json for version 2.0.0.0 -
 
 ```json
 {
@@ -524,7 +524,7 @@ No. Registering storage account with hosting service is one-time process. This e
 
 **What happens if there is an outage in the region that hosts the storage account?**
 
-If the region that hosts the storage account is experiencing an outage that is making the storage account inaccessible, the extension will not be impacted. The hosting service will continue serving content without any issues. 
+If the region that hosts the storage account is experiencing an outage that is making the storage account inaccessible, the extension will not be impacted. The hosting service will continue serving content without any issues.
 
 This will however prevent new versions of the extension from being deployed. The solution for this is to configure the storage account for manual failover. [Step 7: Creating and configuration a storage account](#Step-7:-Creating-and-configuration-a-storage-account) has more information on how to configure the storage account to allow for manual failover.
 

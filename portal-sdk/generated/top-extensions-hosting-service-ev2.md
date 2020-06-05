@@ -21,11 +21,11 @@ Since Ev2 does not provide an API to upload the zip file, setting up the deploym
 <a name="ev2-integration-with-hosting-service-configuring-builds-for-ev2-based-deployments"></a>
 ### Configuring Builds for Ev2 based deployments
 
-In the basic scenario Microsoft.Portal.Tools.v2.targets will generate Ev2 templates. This includes the rollout spec, service model schema and parameter files. The procedure is as follows.
+In the basic scenario Microsoft.Portal.Tools.targets will generate Ev2 templates. This includes the rollout spec, service model schema and parameter files. The procedure is as follows.
 
 1. Configure Build
 
-    Microsoft.Portal.Tools.v2.targets provides the following properties to control hosting service output generation.  The properties have default values that you can override in your Extension.csproj file to meet the needs of your extension.
+    Microsoft.Portal.Tools.targets provides the following properties to control hosting service output generation.  The properties have default values that you can override in your Extension.csproj file to meet the needs of your extension.
 
     - `HostingServiceCreateDeploymentArtifacts`: defaults is undefined. Set to  `true` to generate versioned hosting service zip file.
     - `HostingServiceRoutePrefix`: Defaults to `$(MSBuildProjectName)`. The prefix name of your extension e.g scheduler that is supplied as part of onboarding to the extension host.
@@ -169,7 +169,7 @@ The following procedure describes how to set up the Key Vault that is required b
 
     ```
     PowerShell example
-    
+
     $regenerationPeriod = [System.Timespan]::FromDays(365)
 
     Add-AzureKeyVaultManagedStorageAccount -VaultName $keyVaultName -AccountName $storageAccountName -AccountResourceId $storageAccount.Id -ActiveKeyName $storageAccountKey -RegenerationPeriod $regenerationPeriod
@@ -200,7 +200,7 @@ Replace `\<RolloutSpec>` with the path to `RolloutSpec.P1D.json` in the build.
 
 **NOTE**: The Ev2 Json templates perform either a 24-hour or a 6-hour rollout to each stage within the hosting service's safe deployment stages. Currently, the gating health check endpoint returns `true` in all cases, so really the check only provides a time gated rollout.  This means that you need to validate the health of the deployment in each stage, or cancel the deployment using the `Stop-AzureServiceRollout` command if something goes wrong. Once a stop is executed, you need to rollback the content to the previous version using the `New-AzureServiceRollout` command.  This document will be updated once health check rules are defined and enforced.  If you would like to implement your own health check endpoint you can customize the Ev2 json specs that are located in the NuGet.
 
-To perform a production deployment as specified in [https://aka.ms/portalfx/howtodeploy](https://aka.ms/portalfx/howtodeploy), or deployment by using VSRM that is specified in [https://onebranch.visualstudio.com/onebranch/_wiki/wikis/OneBranch.wiki/936/Release](https://onebranch.visualstudio.com/onebranch/_wiki/wikis/OneBranch.wiki/936/Release), we assume that you have already onboarded to OneBranch VSRM. If not please see the OneBranch VSRM onboarding guidance located at [https://aka.ms/portalfx/vsrm](https://aka.ms/portalfx/vsrm). 
+To perform a production deployment as specified in [https://aka.ms/portalfx/howtodeploy](https://aka.ms/portalfx/howtodeploy), or deployment by using VSRM that is specified in [https://onebranch.visualstudio.com/onebranch/_wiki/wikis/OneBranch.wiki/936/Release](https://onebranch.visualstudio.com/onebranch/_wiki/wikis/OneBranch.wiki/936/Release), we assume that you have already onboarded to OneBranch VSRM. If not please see the OneBranch VSRM onboarding guidance located at [https://aka.ms/portalfx/vsrm](https://aka.ms/portalfx/vsrm).
 
 For Ev2 specific questions please visit [https://ev2docs.azure.net](https://ev2docs.azure.net) or reach out to <a href="mailto:ev2sup@microsoft.com">ev2sup@microsoft.com</a>.
 
@@ -332,4 +332,3 @@ Ev2 templates support generating deployment files that do not include a delay be
 ### Friendly name removal
 
 To remove a friendly name, just run an Ev2 deployment with the `Rolloutspec.RemoveFriendlyName.<friendlyName>.json` file.
-
