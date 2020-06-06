@@ -42,7 +42,6 @@ import * as ClientResources from "ClientResources";
 import { BladeReferences } from "Fx/Composition";
 import { DialogButtons } from "Fx/Composition/Dialog";
 import * as FrameBlade from "Fx/Composition/FrameBlade";
-import * as BladesArea from "../BladesArea";
 
 import Toolbars = MsPortalFx.ViewModels.Toolbars;
 import Toolbar = Toolbars.Toolbar;
@@ -52,11 +51,15 @@ import Toolbar = Toolbars.Toolbar;
  * View model for a FrameBlade.
  */
 @FrameBlade.Decorator()
-@FrameBlade.InjectableModel.Decorator(BladesArea.DataContext)
 export class SampleFrameBlade {
     public title = ClientResources.sampleFrameBladeTitle;
     public subtitle: string;  // This FrameBlade doesn't make use of a subtitle.
-    public context: FrameBlade.Context<void, BladesArea.DataContext>;
+    public context: FrameBlade.Context<void>;
+
+    constructor(
+        private readonly _container: FrameBlade.Container
+    ) {
+    }
 
     /*
      * View model for the frame blade.
@@ -64,15 +67,14 @@ export class SampleFrameBlade {
     public viewModel: FrameBlade.ViewModelV2Contract;
 
     public async onInitialize() {
-        const { container } = this.context;
-        const viewModel = this.viewModel = FrameBlade.createViewModel(container, {
+        const viewModel = this.viewModel = FrameBlade.createViewModel(this._container, {
             src: MsPortalFx.Base.Resources.getContentUri("/Content/SamplesExtension/framebladepage.html"),
             onReceiveMessage: (message: FramePage.Message) => {
-                switch(message.messageType) {
+                switch (message.messageType) {
                     // This is an example of how to listen for messages from your iframe.
                     case FramePage.MessageType.OpenBlade:
                         // In this sample, opening a sample child blade.
-                        container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());
+                        this._container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());
                         break;
                     default:
                         break;
@@ -84,15 +86,15 @@ export class SampleFrameBlade {
         // Send initialization information to iframe.
         MsPortalFx.Base.Security.getAuthorizationToken().then((token) => {
             // Post initialization info from FrameControl to your iframe.
-            viewModel.postMessage({ messageType: FramePage.MessageType.InitInfo, value: { authToken: token.header, resourceId: "testResourceId"}});
+            viewModel.postMessage({ messageType: FramePage.MessageType.InitInfo, value: { authToken: token.header, resourceId: "testResourceId" } });
         });
 
         //top-blades-frameblades#viewmodel
 
         // You can add command bars to FrameBlades.
-        const commandBar = new Toolbar(container);
+        const commandBar = new Toolbar(this._container);
         commandBar.setItems([this._openLinkButton(), this._openDialogButton()]);
-        container.commandBar = commandBar;
+        this._container.commandBar = commandBar;
     }
 
     private _openLinkButton(): Toolbars.OpenLinkButton {
@@ -105,13 +107,12 @@ export class SampleFrameBlade {
     }
 
     private _openDialogButton(): Toolbars.CommandButton<void> {
-        const { container } = this.context;
         return new Toolbars.CommandButton<void>({
             label: "Open a dialog",
             command: {
                 canExecute: ko.observable(true),
                 execute: () => {
-                    return container.openDialog({
+                    return this._container.openDialog({
                         telemetryName: "FrameBladeDialog",
                         title: ClientResources.sampleFrameBladeDialogTitle,
                         content: ClientResources.sampleFrameBladeDialogContent,

@@ -41,11 +41,15 @@ To create a FrameBlade, you need to create 3 artifacts.
 * View model for a FrameBlade.
 */
 @FrameBlade.Decorator()
-@FrameBlade.InjectableModel.Decorator(BladesArea.DataContext)
 export class SampleFrameBlade {
    public title = ClientResources.sampleFrameBladeTitle;
    public subtitle: string;  // This FrameBlade doesn't make use of a subtitle.
-   public context: FrameBlade.Context<void, BladesArea.DataContext>;
+   public context: FrameBlade.Context<void>;
+
+   constructor(
+       private readonly _container: FrameBlade.Container
+   ) {
+   }
 
    /*
     * View model for the frame blade.
@@ -53,15 +57,14 @@ export class SampleFrameBlade {
    public viewModel: FrameBlade.ViewModelV2Contract;
 
    public async onInitialize() {
-       const { container } = this.context;
-       const viewModel = this.viewModel = FrameBlade.createViewModel(container, {
+       const viewModel = this.viewModel = FrameBlade.createViewModel(this._container, {
            src: MsPortalFx.Base.Resources.getContentUri("/Content/SamplesExtension/framebladepage.html"),
            onReceiveMessage: (message: FramePage.Message) => {
-               switch(message.messageType) {
+               switch (message.messageType) {
                    // This is an example of how to listen for messages from your iframe.
                    case FramePage.MessageType.OpenBlade:
                        // In this sample, opening a sample child blade.
-                       container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());
+                       this._container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());
                        break;
                    default:
                        break;
@@ -73,7 +76,7 @@ export class SampleFrameBlade {
        // Send initialization information to iframe.
        MsPortalFx.Base.Security.getAuthorizationToken().then((token) => {
            // Post initialization info from FrameControl to your iframe.
-           viewModel.postMessage({ messageType: FramePage.MessageType.InitInfo, value: { authToken: token.header, resourceId: "testResourceId"}});
+           viewModel.postMessage({ messageType: FramePage.MessageType.InitInfo, value: { authToken: token.header, resourceId: "testResourceId" } });
        });
 
        
