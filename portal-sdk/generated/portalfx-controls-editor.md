@@ -26,7 +26,7 @@ You can control the behavior and features of the editor via initialization `opti
 /**
 * ViewModel class for the editor sample.
 */
-export class SampleEditorViewModel extends MsPortalFx.ViewModels.Controls.Documents.Editor.ViewModel {
+export class SampleEditorViewModel extends MsPortalFx.ViewModels.Controls.Documents.Editor.ViewModel { // tslint:disable-line:deprecation
    /**
     * Editor view model constructor.
     */
@@ -73,7 +73,7 @@ export class EditorInstructionsPartViewModel
    /**
     * View model for the editor.
     */
-   public editorVM: MsPortalFx.ViewModels.Controls.Documents.Editor.Contract;
+   public editorVM: MsPortalFx.ViewModels.Controls.Documents.Editor.Contract; // tslint:disable-line:deprecation
 
    /**
     * View model for the save button.
@@ -115,14 +115,6 @@ export class EditorInstructionsPartViewModel
             ViewModel="{ViewModel Name=EditorInstructionsPartViewModel, Module=./Editor/ViewModels/EditorViewModels}"
             InitialSize="FullWidthFitHeight"
             Template="{Html Source='Templates\\EditorInstructions.html'}" />
-<PartReference Name="EditorApiReferencePart"
-               InitialSize="FullWidthFitHeight"
-               PartType="ModuleReferencePart">
-  <PartReference.PropertyBindings>
-    <Binding Property="moduleName"
-             Source="{Constant MsPortalFx.ViewModels.Controls.Documents.Editor}" />
-  </PartReference.PropertyBindings>
-</PartReference>
 
 ```
 
@@ -244,12 +236,4 @@ export class CustomLanguageEditorPartViewModel {
                   ViewModel="{ViewModel Name=EditorInstructionsPartViewModel, Module=./Editor/ViewModels/EditorViewModels}"
                   InitialSize="FullWidthFitHeight"
                   Template="{Html Source='Templates\\EditorInstructions.html'}" />
-<PartReference Name="EditorApiReferencePart"
-                InitialSize="FullWidthFitHeight"
-                PartType="ModuleReferencePart">
-    <PartReference.PropertyBindings>
-        <Binding Property="moduleName"
-                Source="{Constant MsPortalFx.ViewModels.Controls.Documents.Editor}" />
-    </PartReference.PropertyBindings>
-</PartReference>
 ```

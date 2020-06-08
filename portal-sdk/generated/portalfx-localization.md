@@ -107,7 +107,7 @@ You can access the user's current display language and format culture using the 
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var displayLanguage = Globalization.displayLanguage;
 var formatCulture = Globalization.formatCulture;
 
@@ -155,7 +155,7 @@ To refer to the string in TypeScript, the module for the resource must first be 
 
 ```ts
 
-import ClientResources = require("ClientResources");
+import * as ClientResources from "ClientResources";
 
 ...
 
@@ -179,7 +179,7 @@ This is exposed publically through the module "MsPortalFx/Globalization"
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var displayLanguage = Globalization.displayLanguage;
 var formatCulture = Globalization.formatCulture;
 
@@ -191,7 +191,7 @@ var formatCulture = Globalization.formatCulture;
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var number = 123456.789;
 
 // User locale is 'de-DE'
@@ -207,7 +207,7 @@ console.log(Globalization.NumberFormat.create().format(number));
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
 
 // British English uses day-month-year order

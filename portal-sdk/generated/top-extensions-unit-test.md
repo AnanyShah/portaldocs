@@ -44,7 +44,7 @@ This tutorial will provide you step by step instructions for creating a UnitTest
 
 Note:
 * This document uses relative paths to indicate where you should add each file relative to the root of your test folder e.g ./package.json indicates adding an package.json at the root of your test project folder Extension.UnitTests/package.json
-* All code snippets provided are for `Microsoft.Portal.Tools.V2.targets` if you are using it's predecessor `Microsoft.Portal.Tools.targets` see the [FAQ](#FAQ) at the bottom of this document.
+* All code snippets provided are for `Microsoft.Portal.Tools.targets` if you are using it's predecessor `Microsoft.Portal.Tools.targets` see the [FAQ](#FAQ) at the bottom of this document.
 
 <a name="unit-test-framework-creating-a-project-from-scratch-with-visual-studio-code-dev-build-time-configuration"></a>
 ### Dev/Build time configuration
@@ -54,7 +54,7 @@ Note:
 
 msportalfx-ut is available from the internal AzurePortal Registry.  To configure your project to use this registry add the following:
 
-Add a ./.npmrc file 
+Add a ./.npmrc file
 
 ```
 
@@ -89,33 +89,33 @@ always-auth=true
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "4.1.7",
-    "@types/mocha": "5.2.5",
+    "@types/mocha": "7.0.2",
     "@types/nconf": "0.10.0",
-    "@types/sinon": "7.0.5",
+    "@types/sinon": "7.5.2",
     "chai": "4.2.0",
     "chai-karma-snapshot": "nileshp87/chai-karma-snapshot",
     "gulp": "4.0.0",
     "gulp-concat": "2.6.1",
-    "karma": "^4.0.1",
+    "karma": "^5.0.2",
     "karma-chai": "0.1.0",
     "karma-chrome-launcher": "2.2.0",
     "karma-coverage": "1.1.2",
     "karma-edge-launcher": "0.4.2",
-    "karma-mocha": "1.3.0",
+    "karma-mocha": "2.0.0",
     "karma-mocha-reporter": "2.2.5",
     "karma-junit-reporter": "1.2.0",
     "karma-requirejs": "1.1.0",
     "karma-trx-reporter": "0.4.0",
     "karma-mocha-snapshot": "^0.2.1",
     "karma-snapshot": "^0.6.0",
-    "mocha": "5.2.0",
+    "mocha": "7.1.2",
     "msportalfx-ut": "file:../../packages/Microsoft.Portal.TestFramework.UnitTest.$(CURRENT_BUILD_VERSION)/msportalfx-ut-$(NPM_CURRENT_BUILD_VERSION).tgz",
     "nconf": "0.10.0",
     "react-test-renderer": "16.8.6",
     "@testing-library/react": "8.0.0",
     "requirejs": "2.3.6",
     "sinon": "7.2.3",
-    "typescript": "3.5.3"
+    "typescript": "~3.9.2"
   }
 }
 
@@ -140,7 +140,7 @@ Note:
 <a name="unit-test-framework-creating-a-project-from-scratch-with-visual-studio-code-dev-build-time-configuration-add-msportalfx-ut-config-json"></a>
 #### add ./msportalfx-ut.config.json
 
-msportalfx-ut.config.json defines paths to those files needed by the msportalfx-ut node module to generate everything under `./_generated/*`.  
+msportalfx-ut.config.json defines paths to those files needed by the msportalfx-ut node module to generate everything under `./_generated/*`.
 
 add ./msportalfx-ut.config.json with the following:
 
@@ -168,7 +168,7 @@ Note:
 Add a CreateBlade test to ./test/CreateBlade.test.ts.  This demonstrates how to provide the provisioning context to your CreateBlade that portal would normally provide via your gallery package. You can modify this example for your own extension.
 
 ```typescript
-    
+
 import { CreateBlade } from "Resource/Create/CreateBlade";
 import * as sinon from "sinon";
 import { TemplateBladeHarness } from "msportalfx-ut/Harness";
@@ -216,15 +216,16 @@ describe("Create Blade Tests", () => {
   });
 });
 
+
 ```
 
 Add a TemplateBlade test to ./test/ResourceOverviewBlade.test.ts.  You can modify this example for your own extension.
 
 ```typescript
-    
+
 import { assert } from "chai"; // type issues with node d.ts and require js d.ts so using chai
 import { Parameters, ResourceOverviewBlade } from "Resource/Blades/Overview/ResourceOverviewBlade";
-import ClientResources = require("ClientResources");
+import * as ClientResources from "ClientResources";
 import * as sinon from "sinon";
 import { TemplateBladeHarness } from "msportalfx-ut/Harness";
 
@@ -289,6 +290,7 @@ describe("Resource Overview Blade Tests", () => {
     });
   });
 });
+
 
 ```
 
@@ -383,7 +385,7 @@ Now that your tests are building, add the following to run your tests.
 <a name="unit-test-framework-creating-a-project-from-scratch-with-visual-studio-code-runtime-configuration-configure-require-and-mocha-using-add-test-main-js"></a>
 #### Configure Require and Mocha using add test-main.js
 
-requirejs and mocha need to know where all your modules are located for your extension and any frameworks that you are using. 
+requirejs and mocha need to know where all your modules are located for your extension and any frameworks that you are using.
 
 add a ./test-main.js file as the main entrypoint for your app
 
@@ -449,7 +451,7 @@ In this example we will using karmajs as a test runner.  It provides a rich plug
 add a file named ./karma.conf.js
 
 ```javascript
-  
+
   // Karma configuration
 // Generated on Fri Feb 16 2018 15:06:08 GMT-0800 (Pacific Standard Time)
 
@@ -605,7 +607,7 @@ Update for your specific extension paths.
 
 You can run your tests with `npm run test`.  This command is specified in packages.json and will start karmajs in your configured target browser(s) in watch mode.  This is particularly useful when used in conjunction with compile on save allowing for an efficient inner dev loop i.e dev > compile > automatic test execution, in short any change to your extension src and test project src will be automatically compiled (due to tsconfig.json setup) and then tests will automatically (due to karma.conf.js). The net result is real time feedback on what tests you've broken as you modifying extension code.
 
-Using karmajs for a single test run useful for scenarios such as running in CI 
+Using karmajs for a single test run useful for scenarios such as running in CI
 
 `npm run test-ci` launches karmajs in your configured target browsers for a single run.
 
@@ -621,7 +623,7 @@ In dev scenarios the test results from running your tests via karmajs are availa
 
 By Default the project template/steps above will generate a project configured to produce JUNIT and TRX output. This should be useful for most CI environments. The content will be output under ./TestResults/**/*.xml|trx.  To configure the output paths update karma.conf.js. For more plugins for outputing in a format your CI environment supports see [karmajs official docs](https://karma-runner.github.io/2.0/index.html).
 
-Note: 
+Note:
 * TRX and JUNIT output are generated when running `npm run test` or `npm run test-ci` via karmajs and its karma.conf.js.
 * drop the TRX or JUNIT reporter that is not needed for your CI environment.
 
@@ -634,7 +636,7 @@ By Default the project template/steps above will generate a project configured t
 
 ![alt-text](../media/top-extensions-getting-started/coverage1.png "code coverage summary")
 
-Note: 
+Note:
 * coverage results are generated when running  `npm run test` or `npm run test-ci` via karmajs its karma.conf.js.
 
 Clicking through from the summary view to the ResourceOverviewBlade you can see code coverage line by line
@@ -671,7 +673,7 @@ If you are a executing the default instructions on your Corext environment, this
 
 `npm ERR! enoent ENOENT: no such file or directory, stat 'C:\...\ExtensionName\packages\Microsoft.Portal.TestFramework.UnitTest.5.0.302.979\msportalfx-ut-5.302.979.tgz'`
 
-This error indicates that it cannot find the expanded NuGet package for the Unit Test Framework. 
+This error indicates that it cannot find the expanded NuGet package for the Unit Test Framework.
 
 <a name="faq-corext-environments-fix"></a>
 ### Fix
@@ -729,7 +731,7 @@ import * as harness from "msportalfx-ut/Harness";
 
 ...
 
-const options : harness.InitializationOptions = { 
+const options : harness.InitializationOptions = {
     getUserInfo: sinon.stub().returns(Q({
             email: "ibizaems@microsoft.com",
             isOrgId: false,
@@ -749,13 +751,13 @@ harness.init(options);
 
 ```
 
-<a name="faq-i-am-still-using-microsoft-portal-tools-targets-rather-than-microsoft-portal-tools-v2-targets-what-do-i-need-to-change"></a>
-## I am still using Microsoft.Portal.Tools.targets rather than Microsoft.Portal.Tools.V2.targets. What do I need to change
+<a name="faq-i-am-still-using-microsoft-portal-tools-targets-rather-than-microsoft-portal-tools-targets-what-do-i-need-to-change"></a>
+## I am still using Microsoft.Portal.Tools.targets rather than Microsoft.Portal.Tools.targets. What do I need to change
 
 Ideally you should move to v2 targets to benefit from the dev productivity it will bring to your dev/test inner loop. Migration only takes about an hour or so, see https://aka.ms/portalfx/cloudbuild for details.  If you can't migrate to v2 update the following:
 
-1. Update your ../Extension/Extension.csproj 
-add 
+1. Update your ../Extension/Extension.csproj
+add
 
     xml
     ```
@@ -768,14 +770,14 @@ add
 
     ```
     "prereq": "npm run init && gulp --gulpfile=./node_modules/msportalfx-ut/gulpfile.js --cwd ./"
-    ``` 
+    ```
 
 1. ./msportalfx-ut.config.js
 
     ```
         "ExtensionTypingsFiles": "../Extension/**/*.d.ts",
         "ResourcesResxRootDirectory": "../Extension/Client"
-    ```    
+    ```
 
 1. ./tsconfig.json
 
@@ -811,13 +813,13 @@ add
 
 
     ```
-    ... 
+    ...
 
     files: [
         ...,
 
         { pattern: "Extension/Output/Content/Scripts**/*.js", included: false },
-        
+
         ...
     ],
 

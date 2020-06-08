@@ -14,7 +14,7 @@ This is exposed publically through the module "MsPortalFx/Globalization"
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var displayLanguage = Globalization.displayLanguage;
 var formatCulture = Globalization.formatCulture;
 
@@ -76,7 +76,7 @@ Optional. An object with some or all of the following properties:
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var number = 123456.789;
 
 // User locale is 'de-DE'
@@ -99,7 +99,7 @@ console.log(Globalization.NumberFormat.create().format(number));
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var number = 123456.789;
 
 // request a currency format// User locale is 'de-DE'
@@ -176,7 +176,7 @@ Optional. An object with some or all of the following properties:
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
 
 // formats below assume the local time zone of the locale;
@@ -209,7 +209,7 @@ console.log(Globalization.DateTimeFormat.create().format(date));
 
 ```ts
 
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
 
 // request a weekday along with a long date// User locale is 'de-DE'

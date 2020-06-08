@@ -31,8 +31,7 @@ public subtitle: string;
 public context: TemplateBlade.Context<void>;
 //docs#Context
 
-public onInitialize() {
-    return Q();  // This sample loads no data.
+public async onInitialize() {
 }
 }
 

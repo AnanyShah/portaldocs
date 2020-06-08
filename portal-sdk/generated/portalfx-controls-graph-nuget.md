@@ -12,7 +12,7 @@ Your web page must statically include the following scripts before your require 
 1. Q (version 1)
 1. hammerjs (1.1.3 has been tested. If you don't include hammer, you won't get multi-touch, but everything else should work correctly.)
 
-You then must use requirejs to load the graph control. Specify your program entry in data-main. There are 3 modules you should ever need to explicitly bring in as dependencies. 
+You then must use requirejs to load the graph control. Specify your program entry in data-main. There are 3 modules you should ever need to explicitly bring in as dependencies.
 Viva.Controls/Controls/Visualization/Graph/GraphWidget (contains the widget)
 Viva.Controls/Controls/Visualization/Graph/GraphViewModel (the view model backing the widget)
 Viva.Controls/Controls/Visualization/Graph/GraphEntityViewModel (defines graph node and edges classes)
@@ -20,9 +20,9 @@ Viva.Controls/Controls/Visualization/Graph/GraphEntityViewModel (defines graph n
 An example module that consumes the control:
 
 ```ts
-import Widget = require("./Viva.Controls/Controls/Visualization/Graph/GraphWidget");
-import ViewModel = require("./Viva.Controls/Controls/Visualization/Graph/GraphViewModel");
-import Entities = require("./Viva.Controls/Controls/Visualization/Graph/GraphEntityViewModel");
+import * as Widget from "./Viva.Controls/Controls/Visualization/Graph/GraphWidget";
+import * as ViewModel from "./Viva.Controls/Controls/Visualization/Graph/GraphViewModel";
+import * as Entities from "./Viva.Controls/Controls/Visualization/Graph/GraphEntityViewModel";
 
 export = Main;
 

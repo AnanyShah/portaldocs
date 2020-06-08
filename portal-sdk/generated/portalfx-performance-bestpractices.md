@@ -46,9 +46,9 @@ performance in the browser.  In this case, by using AMD, the following files wil
 
 ```ts
 
-import SecurityArea = require("../SecurityArea");
-import ClientResources = require("ClientResources");
-import Svg = require("../../_generated/Svg");
+import * as SecurityArea from "../SecurityArea";
+import * as ClientResources from "ClientResources";
+import * as Svg from "../../_generated/Svg";
 
 export class BladeViewModel extends MsPortalFx.ViewModels.Blade {
     ...
@@ -166,4 +166,3 @@ Using the selectable grid SDK sample we can see the benefits to using `map` to p
 [mapping]: ../media/portalfx-performance/mapping.png
 
 There is almost a 50% reduction in time with these optimizations, but also note that at 300 items it is still over 1.5s. Mapping to just the 2 columns in that selectable grid sample reduces the message size by 2/3 by using the technique described above. This reduces the time needed to transfer the view model as well as reducing memory usage.
-

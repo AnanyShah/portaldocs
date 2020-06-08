@@ -30,7 +30,7 @@ public context: MenuBlade.Context<void, BladesArea.DataContext>;
 
 public viewModel: MenuBlade.ViewModel2;
 
-public onInitialize() {
+public async onInitialize() {
     const { container } = this.context;
 
     this.viewModel = MenuBlade.ViewModel2.create(container, {
@@ -59,8 +59,6 @@ public onInitialize() {
             },
         },
     });
-
-    return Q();  // This sample loads no data.
 }
 }
 

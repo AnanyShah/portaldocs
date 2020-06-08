@@ -41,7 +41,7 @@ See the [National Clouds FAQ](#national-clouds) for more information
 >**Note:** access is database specific, i.e. access to one database does not indicate access to another in the cluster. 
 
 We do not grant individuals direct access to our Kusto Clusters. If you require manual access, you must first join your respective team's standard access group.
-Your team should have a standard access group you can join from [aka.ms/ramweb](aka.ms/ramweb) or [aka.ms/myaccess](aka.ms/myaccess) which is configured to inherit the required, valid permissions.
+Your team should have a standard access group you can join from  [aka.ms/myaccess](https://aka.ms/myaccess) which is configured to inherit the required, valid permissions.
 
 If you are having trouble gaining access, please see the [FAQ](#faq)
 
@@ -52,7 +52,7 @@ Though permissions are granted through these top-level groups, you may not join 
 1. Visit [http://aka.ms/standardaccess](http://aka.ms/standardaccess)
 1. On the standard access page you will find a table of team projects 'Active ​Azure  Team Projects'
 1. Search the table for your team's group (if you are unware of which group to join ask your colleagues)
-1. Once you have found the correct group join that group via [aka.ms/myaccess](aka.ms/myaccess) or reach out to team's support alias for further help.
+1. Once you have found the correct group join that group via [aka.ms/myaccess](https://aka.ms/myaccess) or reach out to team's support alias for further help.
 1. Ensure your request has been approved. If you have been denied for any reason please follow up with the group support alias.
 
 >**Note:** group access can take up to 24 hours to propogate.
@@ -132,7 +132,7 @@ Please note that Kusto is shared capacity system. As such, we have to reserve th
 
 <a name="getting-started-faq-troubleshooting-user-access-i-had-access-and-now-i-do-not"></a>
 #### &quot;I had access and now I do not&quot;
-Check [aka.ms/ramweb](aka.ms/ramweb) or [aka.ms/myaccess](aka.ms/myaccess) and identify if you are still part of a group with access to the database.
+Check [aka.ms/myaccess](https://aka.ms/myaccess) and identify if you are still part of a group with access to the database.
 If you are part of an access group with valid permissions, check with the group's owner(s) to identify if there is a problem with your access.
 
 Alternatively you can open command prompt and enter:

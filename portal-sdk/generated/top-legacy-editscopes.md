@@ -127,7 +127,7 @@ These enumerated values allow the extension to specify conditions like the follo
 
 * The EditScope's data is to be reverted or cleared as part of completing the 'save' operation, which is also known as the "create new record" UX scenario.
 
-For more information about each enum value, see the jsdoc comments around `MsPortalFx.Data.AcceptEditScopeChangesAction`, and  `MsPortalFxDocs.js`, in Visual Studio or any code editor.
+For more information about each enum value, see the jsdoc comments around `MsPortalFx.Data.AcceptEditScopeChangesAction`, in Visual Studio or any code editor.
 
 <a name="legacy-editscopes-the-editscope-data-model-the-trackedits-property"></a>
 #### The trackEdits property
@@ -537,9 +537,9 @@ const editScopeCache = EditScopeCache.createNew<WebsiteModel, number>({
             // after you get the data from the ajax query you can do whatever transforms
             // you want in it to turn it into the model type you've defined
             return {
-                id: ko.observable(data.id),
-                name: ko.observable(data.name),
-                running: ko.observable(data.running),
+                id: data.id,
+                name: data.name,
+                running: data.running,
             };
         });
     },
@@ -610,7 +610,7 @@ const websiteName = new TextBox.ViewModel(
     });
 
 // Section
-this.section = new Section.ViewModel(this._ltm, {
+this.section = Section.create(this._ltm, {
     children: ko.observableArray<any>([
         websiteName,
     ]),

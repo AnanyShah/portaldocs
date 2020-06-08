@@ -136,6 +136,7 @@ public parameterProvider: MsPortalFx.ViewModels.ParameterProvider<ServerConfig, 
 
 public serverIdentifierTextBox: MsPortalFx.ViewModels.Forms.TextBox.ViewModel;
 
+// tslint:disable-next-line:deprecation
 public fixedStorageSlider: MsPortalFx.ViewModels.Forms.Slider.ViewModel;
 
 /**
@@ -169,6 +170,7 @@ constructor(container: MsPortalFx.ViewModels.PartContainerContract) {
     // Use the form to edit the edit scope set up by the provider
     this.editScope = this.parameterProvider.editScope;
     this.serverIdentifierTextBox = new MsPortalFx.ViewModels.Forms.TextBox.ViewModel(container, this, "serverIdentifier");
+    // tslint:disable-next-line:deprecation
     this.fixedStorageSlider = new MsPortalFx.ViewModels.Forms.Slider.ViewModel(container, this, "fixedStorageGigabytes", { min: ko.observable(50), max: ko.observable(1000), showStepMarkers: ko.observable(false) });
 }
 

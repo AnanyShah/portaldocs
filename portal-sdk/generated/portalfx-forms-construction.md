@@ -28,9 +28,9 @@ const editScopeCache = EditScopeCache.createNew<WebsiteModel, number>({
             // after you get the data from the ajax query you can do whatever transforms
             // you want in it to turn it into the model type you've defined
             return {
-                id: ko.observable(data.id),
-                name: ko.observable(data.name),
-                running: ko.observable(data.running),
+                id: data.id,
+                name: data.name,
+                running: data.running,
             };
         });
     },
@@ -105,7 +105,7 @@ const websiteName = new TextBox.ViewModel(
     });
 
 // Section
-this.section = new Section.ViewModel(this._ltm, {
+this.section = Section.create(this._ltm, {
     children: ko.observableArray<any>([
         websiteName,
     ]),

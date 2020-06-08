@@ -53,23 +53,17 @@ constructor(container: MsPortalFx.ViewModels.ContainerContract) {
                     displayText: ClientResources.createEngine,
                     icon: null,
                     supplyBladeReference: () => {
-                        return BladeReferences.forBlade("CreateEngineV3Blade").createReference({
-                            supplyInitialData: () => {
-                                return {
-                                    model: "Azure Engine 3.0",
-                                };
+                        return BladeReferences.forBlade("CreateArmEngineBlade").createReference({
+                            marketplaceId: "Microsoft.NoPdlEngineV1",
+                            parameters:{
+                                createEngineOptions: ["600cc",
+                                    "800cc",
+                                    "1000cc",
+                                    "1200cc",
+                                    "1600cc"].join(","),
+                                initialData: "1600cc",
                             },
-                            supplyProviderConfig: () => {
-                                return {
-                                    provisioningConfig: {
-                                        provisioningEnabled: true,
-                                        galleryCreateOptions: CreateEngine.galleryCreateOptions,
-                                        startboardProvisioningInfo: CreateEngine.startboardProvisioningInfo,
-                                    },
-                                    createEngineOptions: CreateEngine.createEngineOptions,
-                                };
-                            },
-                            receiveResult: () => {
+                            onClosed:()=>{
                                 // Intentionally blank. The launched blade is responsible for the create operation.
                             },
                         });

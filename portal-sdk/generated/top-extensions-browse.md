@@ -49,6 +49,7 @@ All asset types have the following requirements:
 
 <a name="browse-for-arm-resources-defining-your-asset-type"></a>
 ## Defining your asset type
+
 To define your asset type, simply add the following snippet to PDL:
 
 ```xml
@@ -73,10 +74,10 @@ The name can be anything, since it's scoped to your extension. You'll be typing 
 
 In order to provide a modern voice and tone within the portal, asset types have 4 different display names. The portal will use the most appropriate display name given the context. If your asset type display name includes an acronym or product name that is always capitalized, use the same values for upper and lower display name properties (e.g. `PluralDisplayName` and `LowerPluralDisplayName` may both use `SQL databases`). Do not share strings between singular and plural display name properties.
 
-* The 'All services' (browse) menu shows the `ServiceDisplayName` in the list of browseable asset types. If `ServiceDisplayName` is not available, `PluralDisplayName` will be shown instead
-* The All Resources blade uses the `SingularDisplayName` in the Type column, when visible
-* Browse v2 uses the `LowerPluralDisplayName` when there are no resources (e.g. "No web apps to display")
-* Browse v2 uses the `LowerPluralDisplayName` as the text filter placeholder
+- The 'All services' (browse) menu shows the `ServiceDisplayName` in the list of browseable asset types. If `ServiceDisplayName` is not available, `PluralDisplayName` will be shown instead
+- The All Resources blade uses the `SingularDisplayName` in the Type column, when visible
+- Browse v2 uses the `LowerPluralDisplayName` when there are no resources (e.g. "No web apps to display")
+- Browse v2 uses the `LowerPluralDisplayName` as the text filter placeholder
 
 Filtering functionality within the 'All services' (browse) menu searches over `Keywords`. `Keywords` is a comma-separated set of words or phrases which
 allow users to search for your asset by identifiers other than than the set display names.
@@ -243,9 +244,9 @@ Exposing your kind within the 'All services' menu will require your kind/asset t
 There are two options you can use group your kinds:
 
 1. KindGroup
-    * This will define a separate `KindGroup` within your extensions definition which can be used as a way to define a single view for mulitple kinds while also keeping the individual kind view.
+    - This will define a separate `KindGroup` within your extensions definition which can be used as a way to define a single view for mulitple kinds while also keeping the individual kind view.
 1. MergedKind
-    * Similar to `KindGroup` `MergedKind`s will group various kinds together and present them in a single view, except `MergedKind` forces any instance of the individual kinds to be viewed as the merged view.
+    - Similar to `KindGroup` `MergedKind`s will group various kinds together and present them in a single view, except `MergedKind` forces any instance of the individual kinds to be viewed as the merged view.
 
 ```xml
 <!--
@@ -268,7 +269,7 @@ There are two options you can use group your kinds:
   <AssetType Name="Watch"
              ViewModel="{ViewModel Name=WatchViewModel, Module=./Watch/AssetType/Watch}"
              CompositeDisplayName="{Resource AssetTypeNames.Watch, Module=ClientResources}"
-             Icon="{Svg IsLogo=true, File=../../Svg/Watches/generic.svg}"
+             Icon="{Svg File=../../Svg/Watches/generic.svg}"
              BladeName="AppleWatchBlade"
              PartName="AppleWatchTile"
              MarketplaceItemId="Microsoft/watch">
@@ -281,20 +282,20 @@ There are two options you can use group your kinds:
       <Kind Name="apple"
             IsDefault="true"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.Apple, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/apple.svg}" />
+            Icon="{Svg File=../../Svg/Watches/apple.svg}" />
       <Kind Name="lg"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.LG, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/lg.svg}"
+            Icon="{Svg File=../../Svg/Watches/lg.svg}"
             BladeName="LgWatchBlade"
             PartName="LgWatchTile" />
       <Kind Name="samsung"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.Samsung, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/samsung.svg}"
+            Icon="{Svg File=../../Svg/Watches/samsung.svg}"
             BladeName="SamsungWatchBlade"
             PartName="SamsungWatchTile" />
       <Kind Name="fitbit"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.Fitbit, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/fitbit.svg}"
+            Icon="{Svg File=../../Svg/Watches/fitbit.svg}"
             BladeName="FitbitWatchBlade"
             PartName="FitbitWatchTile" />
       <!--
@@ -305,7 +306,7 @@ There are two options you can use group your kinds:
       -->
       <KindGroup Name="android"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.Android, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/android.svg}">
+            Icon="{Svg File=../../Svg/Watches/android.svg}">
         <KindReference KindName="lg" />
         <KindReference KindName="samsung" />
       </KindGroup>
@@ -316,12 +317,12 @@ There are two options you can use group your kinds:
       <MergedKind Name="garmin-merged">
         <Kind Name="garmin"
               CompositeDisplayName="{Resource AssetTypeNames.Watch.Garmin, Module=ClientResources}"
-              Icon="{Svg IsLogo=true, File=../../Svg/Watches/garmin.svg}"
+              Icon="{Svg File=../../Svg/Watches/garmin.svg}"
               BladeName="GarminWatchBlade"
               PartName="GarminWatchTile" />
         <Kind Name="garmin2"
               CompositeDisplayName="{Resource AssetTypeNames.Watch.Garmin2, Module=ClientResources}"
-              Icon="{Svg IsLogo=true, File=../../Svg/Watches/garmin2.svg}"
+              Icon="{Svg File=../../Svg/Watches/garmin2.svg}"
               BladeName="Garmin2WatchBlade"
               PartName="Garmin2WatchTile" />
       </MergedKind>
@@ -395,9 +396,9 @@ class BookViewModel implements ExtensionDefinition.ViewModels.ResourceTypes.Book
 
 The `getBrowseConfig()` function provides the following configuration options for your Browse blade:
 
-* **`columns`** - List of custom columns the user will be able to choose to display
-* **`defaultColumns`** - List of column ids that will be used by default
-* **`properties`** - Additional properties used by formatted columns (e.g. HTML formatting)
+- **`columns`** - List of custom columns the user will be able to choose to display
+- **`defaultColumns`** - List of column ids that will be used by default
+- **`properties`** - Additional properties used by formatted columns (e.g. HTML formatting)
 
 Start by specifying all possible custom columns you want to make available to customers using `BrowseConfig.columns`. Browse will share the list of standard ARM columns and any custom columns you define with users and let them choose which columns they want to see.
 
@@ -598,6 +599,7 @@ class BookViewModel implements ExtensionDefinition.ViewModels.ResourceTypes.Book
     ...
 }
 ```
+
 <a name="browse-with-azure-resource-graph"></a>
 # Browse with Azure Resource Graph
 
@@ -1247,6 +1249,7 @@ module MsPortalFxForAsset {
     }
 }
 
+
 ```
 
 Here is a sample of defining various asset commands, represented by a single TypeScript file in your extension project.
@@ -1344,7 +1347,7 @@ import { SvgType } from "Fx/Images";
                     id: "SelectionBasedOpenBladeCommand",
                     label: ClientResources.AssetCommands.openBlade1,
                     icon: {
-                        image: SvgType.QuickStart,
+                        image: SvgType.AzureQuickstart,
                     },
                     bladeReference: {
                         blade: "SimpleTemplateBlade",

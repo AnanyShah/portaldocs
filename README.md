@@ -212,10 +212,6 @@ Because your extension is Web code, you can make **AJAX** calls to various servi
 
 * [Custom domains (e.g. aad.portal.azure.com)](/portal-sdk/generated/top-extensions-custom-domains.md)
 
-### Weave
-
-* [Weave rendering engine](/portal-sdk/generated/top-extensions-weave.md)
-
 ## Debugging
 
 * [Using debug mode](/portal-sdk/generated/top-extensions-debugging.md#debug-mode)

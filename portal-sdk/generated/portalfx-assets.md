@@ -44,6 +44,7 @@ Asset types that represent Azure Resource Manager (ARM) resource types also have
 
 <a name="assets-defining-your-asset-type"></a>
 ### Defining your asset type
+
 To define your asset type, simply add the following snippet to PDL:
 
 ```xml
@@ -248,12 +249,14 @@ To opt in to this experience you need to provide a `description` and a `link`, t
 <a name="blades-parts-commands"></a>
 <a name="assets-blades-parts-and-commands"></a>
 ### Blades, parts, and commands
+
 Every blade, part, and command that represents or acts on a single asset instance should specify an `AssetType` and `AssetIdProperty`. The `AssetType` is the `Name` specified on your `<AssetType />` node and the `AssetIdProperty` is the name of the input property that contains the asset id. Remember, that should be the string resource id, if your asset is an ARM resource.
 
 If a blade, part, or command represents or acts on multiple assets, use the primary asset type/id based on the context. For instance, when displaying information about a child asset that also obtains information about the parent, use the child's asset type/id.
 
 <a name="assets-showing-up-in-the-browse-more-services-menu"></a>
 ### Showing up in the Browse (&quot;More services&quot;) menu
+
 To show up in the Browse menu, your asset type must specify the `<Browse Type="" />` node. The `Type` informs the Browse menu
 how to interact with your asset type. Learn more about [Browse integration](portalfx-browse.md).
 
@@ -261,23 +264,27 @@ Services that use [resource kinds](#resource-kinds) can also be added to the Bro
 
 <a name="assets-showing-up-in-browse-recent"></a>
 ### Showing up in Browse &gt; Recent
+
 The Recent list in the Browse menu shows asset instances that have been interacted with. The portal tracks this via the
 `AssetType` and `AssetIdProperty` on each blade that is launched. See [Blades, parts, and commands](#blades-parts-commands)
 above for more information.
 
 <a name="assets-showing-up-in-all-resources-and-resource-group-resources"></a>
 ### Showing up in All Resources and resource group resources
+
 The All Resources and resource group blades show all resources except alert rules, autoscale settings, and dashboards. Resources that aren't backed by an asset type use a very basic resource menu blade that exposes properties, RBAC, tags, locks, and activity log.
 
 To implement the most basic asset type, add the asset type definition (including display names, icon, blade, and part), add `<Browse Type="ResourceType" />` for [no-code Browse](portalfx-browse.md), and then include a `<ResourceType ResourceTypeName="" ApiVersion="" />` declaration.
 
 <a name="assets-handling-permissions-for-rbac"></a>
 ### Handling permissions for RBAC
+
 To ensure your blades, parts, and commands react to the user not having access, you can add an `AssetType`, `AssetIdProperty`, and required `Permissions` to your blades, parts, and commands. Learn more about [Permissions](portalfx-permissions.md).
 
 <a name="resource-kinds"></a>
 <a name="assets-special-casing-arm-resource-kinds"></a>
 ### Special-casing ARM resource kinds
+
 The portal supports overriding the following default behaviors based on the resource kind value:
 
 * Hiding resources in Browse and resource groups
@@ -349,12 +356,12 @@ To expose your resources as a merged kind you need to define the kinds you wish 
       <MergedKind Name="garmin-merged">
         <Kind Name="garmin"
               CompositeDisplayName="{Resource AssetTypeNames.Watch.Garmin, Module=ClientResources}"
-              Icon="{Svg IsLogo=true, File=../../Svg/Watches/garmin.svg}"
+              Icon="{Svg File=../../Svg/Watches/garmin.svg}"
               BladeName="GarminWatchBlade"
               PartName="GarminWatchTile" />
         <Kind Name="garmin2"
               CompositeDisplayName="{Resource AssetTypeNames.Watch.Garmin2, Module=ClientResources}"
-              Icon="{Svg IsLogo=true, File=../../Svg/Watches/garmin2.svg}"
+              Icon="{Svg File=../../Svg/Watches/garmin2.svg}"
               BladeName="Garmin2WatchBlade"
               PartName="Garmin2WatchTile" />
       </MergedKind>
@@ -374,12 +381,12 @@ Note both lg and samsung in the example below will be exposed as entries too.
                   ApiVersion="2017-04-01">
       <Kind Name="lg"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.LG, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/lg.svg}"
+            Icon="{Svg File=../../Svg/Watches/lg.svg}"
             BladeName="LgWatchBlade"
             PartName="LgWatchTile" />
       <Kind Name="samsung"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.Samsung, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/samsung.svg}"
+            Icon="{Svg File=../../Svg/Watches/samsung.svg}"
             BladeName="SamsungWatchBlade"
             PartName="SamsungWatchTile" />
       <!--
@@ -390,7 +397,7 @@ Note both lg and samsung in the example below will be exposed as entries too.
       -->
       <KindGroup Name="android"
             CompositeDisplayName="{Resource AssetTypeNames.Watch.Android, Module=ClientResources}"
-            Icon="{Svg IsLogo=true, File=../../Svg/Watches/android.svg}">
+            Icon="{Svg File=../../Svg/Watches/android.svg}">
         <KindReference KindName="lg" />
         <KindReference KindName="samsung" />
       </KindGroup>
@@ -401,6 +408,7 @@ Note both lg and samsung in the example below will be exposed as entries too.
 <a name='notify-asset-deleted'></a>
 <a name="assets-handling-deleted-resources"></a>
 ### Handling deleted resources
+
 The portal includes many references to assets, like pinned parts on the dashboard, recent items, and more. All references
 are persisted to user settings and available when the user signs in again. When an asset is deleted, the portal needs to be
 notified that these references need to be cleaned up. To do that, simply call
@@ -410,6 +418,7 @@ It's important to note that assets can obviously be deleted outside the portal. 
 
 <a name="assets-linking-notifications-to-assets"></a>
 ### Linking notifications to assets
+
 To link a notification to an asset, simply include an asset reference (`AssetTriplet`) in the notification:
 
 ```ts
@@ -429,6 +438,7 @@ Learn more about [notifications](portalfx-notifications.md).
 
 <a name="assets-arm-rp-and-resource-type-metadata"></a>
 ### ARM RP and resource type metadata
+
 Every ARM resource provider (RP) should have a default RP icon as well as a resource type icon specified in the RP manifest to support the following scenarios:
 
 * The AAD custom role management UI uses the resource type icon for resource type actions

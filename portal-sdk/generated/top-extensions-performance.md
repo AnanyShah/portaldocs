@@ -47,7 +47,7 @@
 <a name="performance-overview"></a>
 # Performance Overview
 
-Portal performance from a customer's perspective is seen as all experiences throughout the product. 
+Portal performance from a customer's perspective is seen as all experiences throughout the product.
 As an extension author you have a duty to uphold your experience to the performance bar at a minimum.
 
 | Area      | 95th Percentile Bar | Telemetry Action         | How is it measured? |
@@ -214,9 +214,9 @@ PartPerformance will return a table with the following columns:
 1. Profile what is happening in your extension load. [Profile your scenario](#performance-profiling)
 1. Are you using the Portal's ARM token? If no, verify if you can use the Portal's ARM token and if yes, follow: [Using the Portal's ARM token](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-api-authentication)
 1. Are you on the hosting service? If no, migrate to the hosting service: [Hosting service documentation](portalfx-extension-hosting-service.md#extension-hosting-service)
-    - If you are, have you enabled prewarming? 
+    - If you are, have you enabled prewarming?
         - Follow http://aka.ms/portalfx/docs/prewarming to enable prewarming for your extension load.
-1. Are you using obsolete bundles? 
+1. Are you using obsolete bundles?
     - If yes, remove your dependency to them and then remove the obsolete bitmask. This is a blocking download before your extension load. See below for further details.
 1. See our [best practices](#performance-best-practices)
 
@@ -233,7 +233,7 @@ PartPerformance will return a table with the following columns:
     - If there are multiple parts, migrate over to use a no-pdl blade.
     - Ensure to support any old pinned parts when you migrate.
 1. Does your blade open within a resource menu blade?
-    - If it does, ensure the `getMenuConfig` call is returned statically/synchronously (< 10ms). You can make use of the enabled/disabled observable property on menu items, if you need to asynchronously determine to enable a menu item. 
+    - If it does, ensure the `getMenuConfig` call is returned statically/synchronously (< 10ms). You can make use of the enabled/disabled observable property on menu items, if you need to asynchronously determine to enable a menu item.
 1. See our [best practices](#performance-best-practices)
 
 <a name="performance-frequently-asked-questions-faq-my-part-ready-is-above-the-bar-what-should-i-do"></a>
@@ -292,7 +292,7 @@ Sure! Book in some time in the Azure performance office hours.
 - Move to [hosting service](portalfx-extension-hosting-service.md#extension-hosting-service)
   - We've seen every team who have onboarded to the hosting service get some performance benefit from the migration.
     - Performance benefits vary from team to team given your current infrastructure
-    - We've commonly seen teams improve their performance by > 0.5s at the 95th  
+    - We've commonly seen teams improve their performance by > 0.5s at the 95th
   - If you are not on the hosting service ensure;
       1. [Homepage caching](portalfx-performance-caching-homepage.md) is enabled
       1. [Persistent content caching](portalfx-extension-persistent-caching-of-scripts.md) is enabled
@@ -479,8 +479,8 @@ For more information, please create a stack overflow question (https://aka.ms/po
 ## Identifying common slowdowns
 
 1. Blocking network calls
-    - Fetching data - We've seen often that backend services don't have the same performance requirements as the front end experience, because of which you may need to engage your backend team/service to ensure your front end experience can meet the desired performance bar. 
-    - Required files - Downloading more than what is required, try to minimise your total payload size. 
+    - Fetching data - We've seen often that backend services don't have the same performance requirements as the front end experience, because of which you may need to engage your backend team/service to ensure your front end experience can meet the desired performance bar.
+    - Required files - Downloading more than what is required, try to minimise your total payload size.
 1. Heavy rendering and CPU from overuse of UI-bound observables
     - Are you updating the same observable repeatedly in a short time frame? Is that reflected in the DOM in any way? Do you have computeds listening to a large number of observables?
 
@@ -489,7 +489,7 @@ For more information, please create a stack overflow question (https://aka.ms/po
 
 To correctly verify a change you will need to ensure the before and after are instrumented correctly with telemetry. Without that you cannot truly verify the change was helpful.
 We have often seen what seems like a huge win locally transition into a smaller win once it's in production, we've also seen the opposite occur too.
-The main take away is to trust your telemetry and not profiling, production data is the truth. 
+The main take away is to trust your telemetry and not profiling, production data is the truth.
 
 <a name="v2-targets"></a>
 # V2 targets
@@ -594,7 +594,7 @@ Below are the steps to switch to the V2 targets. A video of the migration steps 
 - Switch the old tools target to the new tools target ("v2") in the .csproj. The new import targets looks something like:
 
 ```xml
-  <Import Project="$(PkgMicrosoft_Portal_Tools)\build\Microsoft.Portal.Tools.V2.targets" />
+  <Import Project="$(PkgMicrosoft_Portal_Tools)\build\Microsoft.Portal.Tools.targets" />
 ```
 
 <a name="v2-targets-enabling-cloudbuild-support"></a>
@@ -611,12 +611,12 @@ Below are the steps to switch to the V2 targets. A video of the migration steps 
 <a name="v2-targets-common-errors"></a>
 ## Common errors
 
-- Make sure that the `Microsoft.Portal.Tools.V2.targets` is imported after the C# and WebApplication targets. The ordering should look like something before.
+- Make sure that the `Microsoft.Portal.Tools.targets` is imported after the C# and WebApplication targets. The ordering should look like something before.
 
 ```xml
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v15.0\WebApplications\Microsoft.WebApplication.targets" />
-  <Import Project="$(NuGetPath_Microsoft_Portal_Tools)\build\Microsoft.Portal.Tools.V2.targets" Condition="Exists('$(NuGetPath_Microsoft_Portal_Tools)\build\Microsoft.Portal.Tools.V2.targets')" />
+  <Import Project="$(NuGetPath_Microsoft_Portal_Tools)\build\Microsoft.Portal.Tools.targets" Condition="Exists('$(NuGetPath_Microsoft_Portal_Tools)\build\Microsoft.Portal.Tools.targets')" />
 ```
 
 <a name="v2-targets-breaking-changes-between-v1-and-v2-targets"></a>
@@ -763,7 +763,7 @@ The frameworks supports a new extension load contract that can improve extension
     - Refer to these changes for an example: https://msazure.visualstudio.com/One/_git/AzureUX-IaaSExp/commit/fba28b74f52b4d8a60497037f9ecd743ff775368?path=%2Fsrc%2Fsrc%2FUx%2FExtensions%2FCompute%2FClient%2FEventHandlers%2FEventHandlers.ts&gridItemType=2&_a=contents
     - You can verify whether the RPC callbacks are registered correctly by checking `Output/Content/AzurePortalMetadata/SdkSuppliedEnvironment.json` for `rpc`.
 - Change the `EnableDependencyInjectedViewModels` MSBuild property in your csproj to `EnableFastExtensionLoad`.
-- The URI used to register your extension to the portal should be the application root and should not contain any routes. 
+- The URI used to register your extension to the portal should be the application root and should not contain any routes.
   - You may need to change the URI that you use to sideload your extension.
   - The hosting service URIs are already registered correctly.
   - You can add a urlMapping in your web.config to redirect the root application path `~/` to your home page controller. This change does not have to be deployed to production if your extension is already on the hosting service.

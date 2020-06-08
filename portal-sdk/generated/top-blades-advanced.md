@@ -125,7 +125,7 @@ export class TemplateBladeWithStatusBar {
 
     public context: TemplateBlade.Context<void, BladesArea.DataContext>;
 
-    public onInitialize() {
+    public async onInitialize() {
         const { container } = this.context;
 
         // Create the Status dropdown
@@ -153,7 +153,6 @@ export class TemplateBladeWithStatusBar {
                 onClick: new ClickableLink("http://www.bing.com"),
             });
         });
-        return Q(); // This sample loads no data.
     }
 }
 

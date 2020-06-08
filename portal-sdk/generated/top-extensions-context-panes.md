@@ -41,7 +41,7 @@ import Grid = MsPortalFx.ViewModels.Controls.Lists.Grid;
 import QueryView = MsPortalFx.Data.QueryView;
 
 // Data type used in the grid sample
-export type Person = Person;
+export { Person } from "_generated/SamplesExtension/DataModels/Person";
 
 /**
  * Const function which produces a callback
@@ -208,6 +208,7 @@ export class OpenBladeApiSamplesViewModel
     /**
      * Hotspot view model
      */
+    // tslint:disable-next-line:deprecation HotSpot
     public hotspot: HotspotViewModel;
 
     public grid: Grid.ViewModel<Person, Person>;
@@ -416,12 +417,13 @@ export class OpenBladeApiSamplesViewModel
     }
 
     public onRowClick(item: Person) {
-        this._container.openBlade(BladeReferences.forBlade("ListViewChildBlade").createReference({
+        this._container.openBlade(BladeReferences.forBlade("PersonBlade").createReference({
             parameters: { ssnId: item.ssnId() },
         }));
     }
 
     private _initializeHotSpotSample(container: BladeContainer) {
+        // tslint:disable-next-line:deprecation HotSpot
         this.hotspot = new HotspotViewModel(container, {
             onClick: () => {
                 container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());

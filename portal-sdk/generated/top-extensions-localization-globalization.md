@@ -3,7 +3,7 @@
 
 The Azure Portal is localized and globalized on two dimensions: the display language and the format culture. The display language is used to determine the language of the UI text strings. The format culture is used to determine the culture formatting of dates and currency. The portal uses a combination of heuristics and user settings to determine both these values for a given user. These values are provided to an extension at the time it is loaded. The heuristics used is open to modifications in the future to improve user experience.
 
-The display language will be one of the 18 language below. All extensions are required to provide UI text strings for all of the 18 languages. 
+The display language will be one of the 18 language below. All extensions are required to provide UI text strings for all of the 18 languages.
 
 | Language              	| Culture Code 	|
 |-----------------------	|--------------	|
@@ -50,7 +50,7 @@ During the compilation of an extension, the Azure Portal SDK parses the `resx` f
 To refer to the string in TypeScript, the module for the resource must first be imported. This allows for static typing to ensure the requested string exists at compile time:
 
 ```ts
-import ClientResources = require("ClientResources");
+import * as ClientResources from "ClientResources";
 ...
 this.subtitle(ClientResources.hubsLensTitle);
 ```
@@ -87,7 +87,7 @@ Packages submitted to the Azure Marketplace must be localized as well. For more 
 You can access the user's current display language and format culture using the following TypeScript:
 
 ```ts
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var displayLanguage = Globalization.displayLanguage;
 var formatCulture = Globalization.formatCulture;
 ```
@@ -97,18 +97,18 @@ This is exposed publically through the module `MsPortalFx/Globalization`. The Gl
 <a name="localization-handling-localization-for-links-to-documentation"></a>
 ### Handling localization for links to documentation
 
-The Azure portal and extensions are making increasing use of links to other sites for documentation, including [docs.microsoft.com](https://docs.microsoft.com/), [azure.microsoft.com](https://azure.microsoft.com/), MS Learn and blogs. 
+The Azure portal and extensions are making increasing use of links to other sites for documentation, including [docs.microsoft.com](https://docs.microsoft.com/), [azure.microsoft.com](https://azure.microsoft.com/), MS Learn and blogs.
 
 When linking to docs, use "language neutral" URLs (e.g. "docs.microsoft.com/azure" rather than "docs.microsoft.com/en-us/azure") to ensure non-English users have a good experience whenever the destination site supports this (docs.microsoft.com, azure.microsoft.com and MSLearn support this). If the destination site does not support language detection, you need to adapt the destination URL based on current language.
 
-When sending customers to docs.microsoft.com/azure.microsoft.com/MSLearn, let these external sites figure the customer's language preference. There is no requirement to match the Portal language. Besides being by far the easiest to implement and hard to get wrong, it's also a great customer experience as it allows a customer to have a preference for e.g. seeing Portal in one language and Docs in another. 
+When sending customers to docs.microsoft.com/azure.microsoft.com/MSLearn, let these external sites figure the customer's language preference. There is no requirement to match the Portal language. Besides being by far the easiest to implement and hard to get wrong, it's also a great customer experience as it allows a customer to have a preference for e.g. seeing Portal in one language and Docs in another.
 
 Note: This recommendation is specific to links to external sites. When content from a site other than Portal is integrated (via iframe) in the Portal experience, its language should match the portal language.
 
 <a name="localization-handling-localization-for-links-to-documentation-creating-a-link-to-a-doc"></a>
 #### Creating a link to a doc
 
-1. For external links to docs.microsoft.com/azure.microsoft.com/MSLearn always use language-neutral destination URLs as specified above. Once you have this language neutral URL, create a FWLink for the URL you would like to link to using the [URL Manager Tool](https://sftools.trafficmanager.net/am/redirection/home?options=host:go.microsoft.com). Make sure you are using `go.microsoft.com` as the Host when you create this link. 
+1. For external links to docs.microsoft.com/azure.microsoft.com/MSLearn always use language-neutral destination URLs as specified above. Once you have this language neutral URL, create a FWLink for the URL you would like to link to using the [URL Manager Tool](https://sftools.trafficmanager.net/am/redirection/home?options=host:go.microsoft.com). Make sure you are using `go.microsoft.com` as the Host when you create this link.
 1. If you own an Azure extension, let your [localization contact](http://aka.ms/AzureGR) know that this content is being linked to in the portal to possibly prioritize localization of the linked content.
 1. Verify that the link works correctly. Inspect the link to ensure they do NOT have hard-coded langugage in them (`docs.microsoft.com/en-us/azure` is bad, `docs.microsoft.com/azure` is good)
 1. For FWLink redirects, inspect HTTP traffic and look for hard-coded language during the initial redirect response as shown below.
@@ -124,7 +124,7 @@ The Globalization Formatters enable you to easily format numbers, currencies, an
 <a name="localization-formatting-numbers-currencies-and-dates-number-and-currency-formatter"></a>
 #### Number and currency formatter
 
-The syntax for number formating is `Globalization.NumberFormat.create([options])` where - 
+The syntax for number formating is `Globalization.NumberFormat.create([options])` where -
 
 `options` - optional. An object with some or all of the following properties:
 
@@ -142,10 +142,10 @@ Note: The following properties fall into two groups: `minimumIntegerDigits`, `mi
 
 **Examples**
 
-Basic usage - 
+Basic usage -
 
 ```ts
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var number = 123456.789;
 
 // User locale is 'de-DE'
@@ -153,7 +153,7 @@ var number = 123456.789;
 console.log(Globalization.NumberFormat.create().format(number));
 // → 123.456,789
 
-// User locale is 'ar-EG' 
+// User locale is 'ar-EG'
 // Arabic in most Arabic speaking countries uses real Arabic digits
 console.log(Globalization.NumberFormat.create().format(number));
 // → ١٢٣٤٥٦٫٧٨٩
@@ -163,29 +163,29 @@ console.log(Globalization.NumberFormat.create().format(number));
 console.log(Globalization.NumberFormat.create().format(number));
 // → 1,23,456.789
 
-// User locale is 'zh-Hans-CN-u-nu-hanidec' with Chinese decimal numbering system 
+// User locale is 'zh-Hans-CN-u-nu-hanidec' with Chinese decimal numbering system
 // the nu extension key requests a numbering system, e.g. Chinese decimal
 console.log(Globalization.NumberFormat.create().format(number));
 // → 一二三,四五六.七八九
 ```
 
-Using options - 
+Using options -
 
 ```ts
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var number = 123456.789;
 
-// request a currency format 
+// request a currency format
 // User locale is 'de-DE'
 console.log(Globalization.NumberFormat.create({ style: 'currency', currency: 'EUR' }).format(number));
 // → 123.456,79 €
 
-// the Japanese yen doesn't use a minor unit 
+// the Japanese yen doesn't use a minor unit
 // User locale is 'ja-JP'
 console.log(Globalization.NumberFormat.create({ style: 'currency', currency: 'JPY' }).format(number));
 // → ￥123,457
 
-// limit to three significant digits 
+// limit to three significant digits
 // User locale is 'en-IN'
 console.log(Globalization.NumberFormat.create({ maximumSignificantDigits: 3 }).format(number));
 // → 1,23,000
@@ -194,7 +194,7 @@ console.log(Globalization.NumberFormat.create({ maximumSignificantDigits: 3 }).f
 <a name="localization-formatting-numbers-currencies-and-dates-date-formatter"></a>
 #### Date Formatter
 
-The syntax for number formating is `Globalization.DateTimeFormat.create([options])` where - 
+The syntax for number formating is `Globalization.DateTimeFormat.create([options])` where -
 
 `options` - optional. An object with some or all of the following properties:
 
@@ -209,7 +209,7 @@ The syntax for number formating is `Globalization.DateTimeFormat.create([options
 	* month, day
 	* hour, minute, second
 	* hour, minute
-	
+
 	Implementations may support other subsets, and requests will be negotiated against all available subset-representation combinations to find the best match. Two algorithms are available for this negotiation and selected by the `formatMatcher` property: A fully specified "basic" algorithm and an implementation dependent "best fit" algorithm.
     * weekday - The representation of the weekday. Possible values are "narrow", "short", "long".
     * Era - The representation of the era. Possible values are "narrow", "short", "long".
@@ -222,14 +222,14 @@ The syntax for number formating is `Globalization.DateTimeFormat.create([options
     * timeZoneName - The representation of the time zone name. Possible values are "short", "long".
 
 	The default value for each date-time component property is undefined, but if all component properties are undefined, then year, month, and day are assumed to be "numeric".
-    
+
 
 **Examples**
 
-Using DateTimeFormat - 
+Using DateTimeFormat -
 
 ```ts
-import Globalization = require("MsPortalFx/Globalization");
+import * as Globalization from "MsPortalFx/Globalization";
 var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
 // formats below assume the local time zone of the locale
 
@@ -260,11 +260,11 @@ console.log(Globalization.DateTimeFormat.create().format(date));
 // → "24/12/20"
 ```
 
-Using options - 
+Using options -
 
 ```ts
-import Globalization = require("MsPortalFx/Globalization");
-var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0)); 
+import * as Globalization from "MsPortalFx/Globalization";
+var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
 
 // request a weekday along with a long date // User locale is 'de-DE'
 var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

@@ -1,3 +1,7 @@
+> # IMPORTANT: The React Views are not ready for production use yet and are currently offered for internal previews by early adopters.
+> - [Join the 'Azure Portal React Views Early Adopters' DL](https://idwebelements/GroupManagement.aspx?Group=ibizareactblades&Operation=join) for updates
+> - Use [`ibiza-react` tag on Microsoft StackOverflow](https://stackoverflow.microsoft.com/questions/tagged/20863) for questions
+---
 <a name="react-views"></a>
 # React Views
 
@@ -19,18 +23,22 @@
       - [Open source](#open-source)
       - [Portal-specific](#portal-specific)
       - [Adding your own](#adding-your-own)
+        - [Samples](#samples)
     - [Styling](#styling)
       - [View padding](#view-padding)
+    - [Debugging](#debugging)
+      - [Hot reloading](#hot-reloading)
   - [Known limitations](#known-limitations)
     - [Storage](#storage)
     - [Service Workers](#service-workers)
     - [Blade inputs / outputs](#blade-inputs--outputs)
+    - [Hot reloading limitations](#hot-reloading-limitations)
   - [Troubleshooting](#troubleshooting)
 
 <a name="react-views-what-it-is"></a>
 ## What it is
 
-**React Views** are the new standard to build experiences in the Azure Portal.
+Once released **React Views** will become the new standard to build experiences in the Azure Portal.
 
 It combines the freedom of running React code in a visible iframe with the performance offered by the Portal framework; it makes Portal development as close to normal web development as possible without the cost and drawbacks of building and hosting a fully-custom solution.
 
@@ -574,7 +582,7 @@ React version of the Essentials control. [See sample usage](https://msazure.visu
 * `"ReactView/CommandBar"`
 React version of traditional blades' command bar. [See sample usage](https://msazure.visualstudio.com/One/_git/AzureUX-PortalFx?path=%2Fsrc%2FSDK%2FExtensions%2FHubsExtension%2FExtension%2FTypeScript%2FHubsExtension%2FReact%2FViews%2FResourcesWithTag.ReactView.tsx&version=GBdev&_a=contents).
 * `"ReactView/BladeLink"`
-React component allowing you to generate an `<a>` tag with an href pointing to a specified blade. [See sample usage](https://msazure.visualstudio.com/One/_git/AzureUX-PortalFx?path=%2Fsrc%2FSDK%2FExtensions%2FHubsExtension%2FExtension%2FTypeScript%2FHubsExtension%2FReact%2FViews%2FReceivesReturnedData.ReactView.tsx&version=GBdev&_a=contents).
+React component allowing you to generate an `<a>` tag with an href pointing to a specified blade. [See sample usage](https://msazure.visualstudio.com/One/_git/AzureUX-PortalFx?path=%2Fsrc%2FSDK%2FExtensions%2FSamplesExtension%2FExtension%2FClient%2FReact%2FViews%2FReceivesReturnedData.ReactView.tsx&version=GBdev&_a=contents).
 * `"ReactView/StatusBar"`
 React version of traditional blades' status bar. [See sample usage](https://msazure.visualstudio.com/One/_git/AzureUX-PortalFx?path=%2Fsrc%2FSDK%2FExtensions%2FHubsExtension%2FExtension%2FTypeScript%2FHubsExtension%2FReact%2FViews%2FRStatusBar.ReactView.tsx&version=GBdev&_a=contents).
 * `"ReactView/Dialog"`
@@ -640,6 +648,12 @@ define(['exports'], function (exports) {
 });
 ```
 
+<a name="react-views-beyond-getting-started-dependencies-adding-your-own-samples"></a>
+##### Samples
+| Library | React View | Code changes |
+|---------|------------|--------------|
+| Luxon.js | [Link](https://df.onecloud.azure-test.net/#blade/SamplesExtension/ReactViewsBlade/reactLuxon) | [Link](https://msazure.visualstudio.com/One/_git/AzureUX-PortalFx/pullrequest/2855250) |
+
 <a name="react-views-beyond-getting-started-styling"></a>
 ### Styling
 
@@ -694,6 +708,22 @@ public render() {
 
 View has default padding pre-applied for consistency with other portal experiences. You can apply the `reactview-nodefaultpadding` class to not use the standard padding.
 
+### Debugging
+Debugging React Views with [official React Developer Tools](https://github.com/facebook/react/tree/master/packages/react-devtools#react-devtools) is supported only when portal is loaded with `&clientOptimizations=false` or `&clientOptimizations=bundle` flags.
+Use the tools within your browsers:
+ - [Chrome extension](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+ - [Edge add-on](https://microsoftedge.microsoft.com/addons/detail/gpphkfbcpidddadnkolkpfckpihlkkil)
+ - [Firefox add-on](https://addons.mozilla.org/firefox/addon/react-devtools/)
+
+You can also use [official Redux Developer Tools](https://github.com/reduxjs/redux-devtools) to power up your Redux development workflow with enhanced state debugging capabilities like time-travel action replay and more (the same `&clientOptimizations=false` or `&clientOptimizations=bundle` flags are needed)!
+
+#### Hot reloading
+To enable hot reloading make sure that:
+1. you have ["compile on save" configured locally](https://github.com/Azure/portaldocs/blob/master/portal-sdk/generated/portalfx-extensions-faq-debugging.md#compile-on-save)
+2. you have `&feature.reactreload=true` and `&clientOptimizations=false` flags added onto the URL that you're side loading against
+
+Please, be aware of [Hot reloading limitations](#hot-reloading-limitations).
+
 ## Known limitations
 
 ### Storage
@@ -739,6 +769,12 @@ interface Props {
     closeView: (parameter: { id: string }) => void;
 }
 ```
+
+<a name="react-views-beyond-getting-started-hot-reloading-limitations"></a>
+### Hot reloading limitations
+- Extension needs to be on Portal SDK of version 5.0.303.4271 or higher.
+
+- At this point hot reloading is not working for incremental controls updates.
 
 <a name="react-views-troubleshooting"></a>
 ## Troubleshooting

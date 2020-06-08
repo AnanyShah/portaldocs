@@ -48,8 +48,8 @@ export class SimpleTemplatePart {
 
     public context: TemplatePart.Context<void, PartsArea.DataContext>;
 
-    public onInitialize() {
-        return Q();  // This sample loads no data.
+    public async onInitialize() {
+        // This sample loads no data.
     }
 }
 
@@ -62,7 +62,6 @@ If you need more control over the DOM and are willing to take on additional burd
 ```
 /// <reference path="../../../FramePage.d.ts" />
 
-import { DataContext } from "../PartsArea";
 import { BladeReferences } from "Fx/Composition";
 import * as FramePart from "Fx/Composition/FramePart";
 import { SvgType } from "Fx/Images";
@@ -77,28 +76,31 @@ import * as ClientResources from "ClientResources";
         },
     },
 })
-@FramePart.InjectableModel.Decorator(DataContext)
 export class SampleFramePart {
     public title: string;  // This sample doesn't make use of a title.
     public subtitle: string;  // This sample doesn't make use of a subtitle.
     public onClick: () => void;  // This FramePart doesn't have click behavior.
-    public context: FramePart.Context<void, DataContext>;
+    public context: FramePart.Context<void>;
 
     /*
      * View model for the frame part.
      */
     public viewModel: FramePart.ViewModelV2Contract;
 
-    public onInitialize() {
-        const { container } = this.context;
-        const viewModel = this.viewModel = FramePart.createViewModel(container, {
+    constructor(
+        private readonly _container: FramePart.Container
+    ) {
+    }
+
+    public async onInitialize() {
+        const viewModel = this.viewModel = FramePart.createViewModel(this._container, {
             src: MsPortalFx.Base.Resources.getContentUri("/Content/SamplesExtension/framepartpage.html"),
             onReceiveMessage: (message: FramePage.Message) => {
-                switch(message.messageType) {
+                switch (message.messageType) {
                     // This is an example of how to listen for messages from your iframe.
                     case FramePage.MessageType.OpenBlade:
                         // In this sample, opening a sample child blade.
-                        container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());
+                        this._container.openBlade(BladeReferences.forBlade("OpenBladeApiChildBlade").createReference());
                         break;
                     default:
                         break;
@@ -110,10 +112,8 @@ export class SampleFramePart {
         // Send initialization information to iframe.
         MsPortalFx.Base.Security.getAuthorizationToken().then((token) => {
             // Post initialization info from FrameControl to your iframe.
-            viewModel.postMessage({ messageType: FramePage.MessageType.InitInfo, value: { authToken: token.header, resourceId: "testResourceId"}});
+            viewModel.postMessage({ messageType: FramePage.MessageType.InitInfo, value: { authToken: token.header, resourceId: "testResourceId" } });
         });
-
-        return Q(); // This sample loads no data.
     }
 }
 

@@ -9,7 +9,7 @@ To batch multiple requests as one, you need a batch call not an api/invoke. The 
 Here is a sample:
 
 ```typescript
-import Batch = require("Fx/Ajax");
+import * as Batch from "Fx/Ajax";
 
 // In the supplyData method
 return Batch.batch({
