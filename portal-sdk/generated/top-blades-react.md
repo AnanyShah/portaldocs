@@ -663,7 +663,7 @@ You can use your own CSS classes to customize View to your needs. The sample is 
 
  ```typescript
 
-import { getClassNames } from "ReactView/Styling";
+import { getClassNames } from "@microsoft/azureportal-reactview/Styling";
 
 ```
 

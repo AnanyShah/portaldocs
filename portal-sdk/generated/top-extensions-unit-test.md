@@ -93,7 +93,6 @@ always-auth=true
     "@types/nconf": "0.10.0",
     "@types/sinon": "7.5.2",
     "chai": "4.2.0",
-    "chai-karma-snapshot": "nileshp87/chai-karma-snapshot",
     "gulp": "4.0.0",
     "gulp-concat": "2.6.1",
     "karma": "^5.0.2",
@@ -106,13 +105,9 @@ always-auth=true
     "karma-junit-reporter": "1.2.0",
     "karma-requirejs": "1.1.0",
     "karma-trx-reporter": "0.4.0",
-    "karma-mocha-snapshot": "^0.2.1",
-    "karma-snapshot": "^0.6.0",
     "mocha": "7.1.2",
     "msportalfx-ut": "file:../../packages/Microsoft.Portal.TestFramework.UnitTest.$(CURRENT_BUILD_VERSION)/msportalfx-ut-$(NPM_CURRENT_BUILD_VERSION).tgz",
     "nconf": "0.10.0",
-    "react-test-renderer": "16.8.6",
-    "@testing-library/react": "8.0.0",
     "requirejs": "2.3.6",
     "sinon": "7.2.3",
     "typescript": "~3.9.2"
@@ -328,24 +323,9 @@ describe("Resource Overview Blade Tests", () => {
             "msportalfx-ut/*": [
                 "./node_modules/msportalfx-ut/lib/*"
             ],
-            "lodash": [
-                "../Extension/ReactDefinitions/ReactViewUnitTestTypings.d.ts"
-            ],
-            "react": [
-                "../Extension/ReactDefinitions/ReactViewUnitTestTypings.d.ts"
-            ],
-            "react-dom": [
-                "../Extension/ReactDefinitions/ReactViewUnitTestTypings.d.ts"
-            ],
-            "redux": [
-                "../Extension/ReactDefinitions/ReactViewUnitTestTypings.d.ts"
-            ],
-            "react-redux": [
-                "../Extension/ReactDefinitions/ReactViewUnitTestTypings.d.ts"
-            ],
             "*": [
                 "../Extension/Output/Content/Scripts/*",
-                "./node_modules/@types/*/index"
+                "*"
             ]
         }
     },
@@ -425,11 +405,6 @@ rjs = require.config({
         "Shared": "../Extension/Output/Content/Scripts/Shared",
         "sinon": "node_modules/sinon/pkg/sinon",
         "chai": "node_modules/chai/chai",
-        "chai-karma-snapshot": "node_modules/chai-karma-snapshot/lib/index",
-        "pretty-format": "node_modules/pretty-format/build-es5/index",
-        "@testing-library/react": "node_modules/@testing-library/react/dist/@testing-library/react.umd",
-        "react-test-renderer": "node_modules/react-test-renderer/umd/react-test-renderer.development",
-        "react-test-renderer/shallow": "node_modules/react-test-renderer/umd/react-test-renderer-shallow.development",
     },
     // dynamically load all test files
     deps: allTestFiles,
@@ -456,11 +431,8 @@ add a file named ./karma.conf.js
 // Generated on Fri Feb 16 2018 15:06:08 GMT-0800 (Pacific Standard Time)
 
 module.exports = function (config) {
-    let path = require("path");
     let process = require("process");
-    function snapshotResolver(basePath, suiteName) {
-        return path.join(basePath, "Extension.UnitTests", "__snapshots__", suiteName + ".md");
-    }
+
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -468,12 +440,10 @@ module.exports = function (config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ["mocha", "snapshot", "mocha-snapshot"],
+        frameworks: ["mocha"],
 
         plugins: [
             require("karma-mocha"),
-            require("karma-snapshot"),
-            require("karma-mocha-snapshot"),
             require("karma-mocha-reporter"),
             require("karma-edge-launcher"),
             require("karma-coverage"), // Include if you want coverage
@@ -495,12 +465,6 @@ module.exports = function (config) {
             { pattern: "Extension.UnitTests/_generated/Ext/**/*RequireConfig.js", included: true },
             // msportalfx-ut test harness and other test scripts you may load within a unit test.
             { pattern: "Extension.UnitTests/node_modules/msportalfx-ut/lib/*.js", included: false },
-            // react test renderer & snapshot utilities/data
-            { pattern: "Extension.UnitTests/node_modules/chai-karma-snapshot/lib/index.js", included: false },
-            { pattern: "Extension.UnitTests/node_modules/@testing-library/react/**/*.js", included: false },
-            { pattern: "Extension.UnitTests/node_modules/react-test-renderer/**/*.js", included: false },
-            { pattern: "Extension.UnitTests/node_modules/pretty-format/**/*.js", included: false },
-            { pattern: "Extension.UnitTests/__snapshots__/**/*.md", included: true },
             // portal framework scripts.
             { pattern: "Extension.UnitTests/node_modules/msportalfx-ut/lib/fx/Content/Scripts/**/*.js", included: false },
             // reserved directory for generated content for framework.
@@ -530,13 +494,6 @@ module.exports = function (config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             "./Extension/Output/Content/Scripts/**/*.js": "coverage",
-            "./Extension.UnitTests/__snapshots__/**/*.md": ["snapshot"],
-        },
-
-        snapshot: {
-            update: process.env.UPDATE === "1",
-            prune: process.env.PRUNE === "1",
-            pathResolver: snapshotResolver,
         },
 
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
