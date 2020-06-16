@@ -14,6 +14,11 @@ The criteria that determine whether a CSS property or an HTML element might have
 1. Usage resets defaults font-family branding that is enforced for typographic consistency
 1. Usage assigns or relies on unique identifiers. Identifier allocation is reserved in the Portal for accessibility purposes
 
+<a name="html-css-and-svg-sanitization-css-library"></a>
+## CSS Library
+
+A CSS Library of reusable, composable classes is provided. Please refer to the Playground extension for the latest available library classes and their documentation.
+
 <a name="html-css-and-svg-sanitization-html-sanitization"></a>
 ## HTML sanitization
 
