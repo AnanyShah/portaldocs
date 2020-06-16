@@ -128,8 +128,6 @@ In the basic scenario Microsoft.Portal.Tools.targets will generate Ev2 templates
 
     1. Mooncake
 
-    1. USSec and USNat - please visit [https://aka.ms/portalfx/lxextonboarding](https://aka.ms/portalfx/lxextonboarding)
-
 Note: If using a non standard path for ServiceGroupRootReplacements set build property `HostingServiceEv2ServiceGroupRootReplacementsFilePath` to the non standard location.  This already defaults toDefaults to `$(MSBuildProjectDirectory)\ServiceGroupRootReplacements.json`.
 
 <a name="ev2-integration-with-hosting-service-configuring-key-vault"></a>
