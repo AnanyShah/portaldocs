@@ -158,17 +158,17 @@ Number of clicks: <strong data-bind="text: numberOfClicks"></strong>
 </p>
 
 <div data-bind="visible: allowMoreClicks">
-<button data-bind="click: increaseClickCount">Click me</button>
+<button data-bind="fxclick: increaseClickCount">Click me</button>
 </div>
 
 <div class="ext-too-many-clicks-box" data-bind="visible: !allowMoreClicks()">
 That's too many clicks!
-<button data-bind="click: resetClickCount">Reset</button>
+<button data-bind="fxclick: resetClickCount">Reset</button>
 </div>
 
 <ul data-bind="foreach: myButtons">
-<li>    
-    <button data-bind="text: displayName, click: $parent.buttonClickHandler"></button>
+<li>
+    <button data-bind="text: displayName, fxclick: $parent.buttonClickHandler"></button>
     Number of clicks: <strong data-bind="text: clicked"></strong>
 </li>
 </ul>

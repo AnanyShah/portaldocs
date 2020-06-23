@@ -111,7 +111,6 @@ The Azure portal extension developer CLI, namely `ap`, is the foundational tool 
 
 * [FAQ](/portal-sdk/generated/top-ap-cli.md#faq)
 
-
 <a name="azure-portal-extension-development-documentation-development-guide-samples"></a>
 ### Samples
 
@@ -134,8 +133,6 @@ The primary UI building block is a called a blade. A blade is like a page. It ge
 
 * [FrameBlade](/portal-sdk/generated/top-blades-frameblade.md)
 
-* [Opening and closing blades programmatically](/portal-sdk/generated/top-blades-opening-and-closing.md)
-
 * [Advanced TemplateBlade topics](/portal-sdk/generated/top-blades-advanced.md)
 
 * [Blade with tiles](/portal-sdk/generated/top-blades-legacy.md)
@@ -150,6 +147,15 @@ If you want your experience to have a presence on Azure dashboards then you will
 * [Developing parts](/portal-sdk/generated/top-extensions-parts.md)
 
 [Ask a question about parts on StackOverflow](https://stackoverflow.microsoft.com/questions/tagged/ibiza-blades-parts)
+
+<a name="azure-portal-extension-development-documentation-development-guide-navigation"></a>
+### Navigation
+
+Navigating between topics or other resources is a core element of interactivity with the portal.
+
+* [Opening and closing blades programmatically](/portal-sdk/generated/top-blades-opening-and-closing.md)
+
+[Ask a question about navigation on StackOverflow](https://stackoverflow.microsoft.com/questions/tagged/ibiza-blades-parts)
 
 <a name="azure-portal-extension-development-documentation-development-guide-building-ui-with-html-templates-and-fx-controls"></a>
 ### Building UI with HTML templates and Fx controls
@@ -180,6 +186,8 @@ When using HTML and framework controls you have some control over styling. These
 * [Typography](/portal-sdk/generated/top-extensions-styling.md#typography)
 
 * [Iconography](/portal-sdk/generated/top-extensions-styling.md#iconography)
+
+* [Printing](/portal-sdk/generated/top-extensions-printing.md)
 
 <a name="azure-portal-extension-development-documentation-development-guide-forms"></a>
 ### Forms
@@ -261,6 +269,12 @@ The Ibiza team provides limited testing support. Due to resource constraints the
 
 * [Node.js test framework (Open source)](/portal-sdk/generated/top-extensions-node-js-test-framework.md)
 
+When asking for assistance with a debugging UI (not unit test) test framework specific issues on stackoverflow, please include the following (if applicable):
+* Screenshot of the test as it fails taken via the portal.takeScreenshot()/webdriver.takeScreenshot() API (usually via a try/catch block)
+* Call stack
+* Exception message
+* Code snippet where the test is failing
+
 [Ask a test-related question on StackOverflow](https://stackoverflow.microsoft.com/questions/tagged/ibiza-test)
 
 <a name="azure-portal-extension-development-documentation-telemetry-and-alerting"></a>
@@ -325,6 +339,7 @@ The Azure Portal strives to meet high accessibility standards to ensure the prod
 ## Deploying your extension
 
 Learn how to deploy your extension to the various clouds and environments.
+
 * [Extension registration, environments, clouds and Ibiza team SLAs](/portal-sdk/generated/top-extensions-publishing.md)
 
 * [Moving an extension from private preview to public preview to GA](/portal-sdk/generated/top-extensions-developmentPhases.md)
@@ -368,8 +383,8 @@ These features are supported, but have had no recent investment. No additional i
 
 * [EditScope](/portal-sdk/generated/top-legacy-editscopes.md)
 
-<a name="marketplace-gallery-developer-resources"></a>
-# Marketplace/Gallery developer resources
+<a name="azure-portal-extension-development-documentation-marketplace-gallery-developer-resources"></a>
+## Marketplace/Gallery developer resources
 
 1. [Gallery overview](/gallery-sdk/generated/index-gallery.md#gallery-overview)
 
